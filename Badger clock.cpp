@@ -1,130 +1,15 @@
-#define F_CPU 8000000UL
-#include <util/delay.h>
-#include <stdlib.h>
-#include <avr/eeprom.h>
-#include "Lib/RTC/rtc.h"
-#include "Lib/TWI/twi.h"
-#include "Lib/millis.h"
-
-#define switchPort(port,pd, onOff) if (onOff == 1) port|= _BV(pd); else port&=~_BV(pd);
-#define isPortHigh(pin, pd) (((1 << pd) & pin) != 0)
-
-#define dcHighPin0 PD6
-#define dcHighPin1 PD7
-#define dcHighPin2 PB0
-#define dcHighPin3 PB1
-#define dcLowPin0 PB7
-#define dcLowPin1 PD3
-#define dcLowPin2 PD2
-#define dcLowPin3 PB6
-#define tubePin14 PC0
-#define tubePin25 PC1
-#define tubePin36 PC2
-#define dpHighPin PD4
-#define dpLowPin PC3
-#define beepPin PD5
-#define ledPin PB2
-
-DateTime dateTime;
-
-bool isDotEtching = false;
-
-bool isAlarmActive = true;
-bool isAlarmTime = false;
-bool isBeep1;
-bool isBeep2;
-bool isButtonsFirstPress;
-bool isCalcBeepSec;
-bool isEtchingCanStart = false;
-bool isForwardCorrection = true;
-bool isHourBeepActive = true;
-bool isHourBeepTime;
-bool isLongPress;
-bool isNightTime = false;
-bool isNightModeActive = false;
-bool isPressedButton1;
-bool isPressedButton2;
-bool isSetModeFirstTime = true;
-bool isCanShowDate = true;
-bool isTubeDPOn[6];
-bool isTubeFlash[6];
-bool isTubeOff[6];
-bool isUserTurnOnHourBeep;
-bool isUserTurnOffAlarm = true;
-bool ledState = true;
-bool dayLedState = true;
-
-int8_t bufByte = 1;
-int8_t setDigit;
-
-uint8_t hourBeepStart = 6;
-uint8_t hourBeepStop = 23;
-uint8_t hourNightModeStart = 21;
-uint8_t hourNightModeStop = 6;
-uint8_t firstStart=1;
-uint8_t alarmMin = 1;
-uint8_t alarmHour = 7;
-uint8_t bright = 1;
-uint8_t dayBrightTmp = 1;
-uint8_t button;
-uint8_t correctionTime = 0;
-uint8_t dotCounter;
-uint8_t etchingCounter;
-uint8_t lastDay;
-uint8_t lastEtchingMin;
-uint8_t lastHour;
-uint8_t lastSec;
-uint8_t maxValueOfSetDigit;
-uint8_t minValueOfSetDigit;
-uint8_t modeWork = 0;
-uint8_t tubeMode;                                       // 0-time | 1-date | 2-Alarm | 3-Correction
-uint8_t rank;
-uint8_t returnTime;
-
-uint32_t buttonADC;
-
-uint64_t beepTime;
-uint64_t buttonDetectTime;
-uint64_t buttonEtchingTime;
-uint64_t dotTime;
-uint64_t tubeOnOffCounter;
-
-uint8_t dcTube[4];
-uint8_t tubeValue[6];
-
-void assignSetDigit();
-void buttonAnalyzer();
-void buttonShortPress();
-void buttonLongPress();
-void checkAlarmTime();
-void checkCorrectionTime();
-void init();
-void firstButtonLongPress();
-void flashDownInit();
-void mainCycle();
-void resetButtonPress();
-void showTimeMode();
-void switchOffBeepValues();
-void tubeAsMode();
-uint8_t getMaxMounthDay();
-void setTubeDC(bool);
-void setTube5DP();
-void setTube6DP();
-void setZeroDate();
-void setDayMode();
-void checkNightMode();
-void setNightMode();
+#include "Lib/BadgerClock.h"
 
 int main(void) {
 	init();
-	while (1) {
+	while (true) {
 		mainCycle();
 	}
 }
 
 void initStartDate() {
 	lastSec = dateTime.sec;
-	lastDay = dateTime.day;
+	setZeroCorrectionDate();
 	lastEtchingMin = dateTime.min;
 	lastHour = dateTime.hour;
 }
@@ -133,45 +18,46 @@ void init(){
 	DDRD = 0xFC;
 	DDRB = 0xC7;
 	DDRC = 0x0F;
-	ADMUX = (1 << REFS0);				 // Напряжение питания в качестве опорного
-	ADCSRA |= (1<<ADEN)				 // Разрешение использования АЦП
-	|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);	 // Делитель 128 = 64 кГц
+	ADMUX = (1 << REFS0);				 
+	ADCSRA |= (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0); 
 	
 	initMillis();
 	twi_init_master();
 	rtc_init();
 	
-	firstStart = eeprom_read_byte((uint8_t*)1);
+	firstStart = eepromReadByte(eeprom_address_firstStart);
 	if (firstStart == 201) {
-		bright = eeprom_read_byte((uint8_t*)2);
-		isAlarmActive = eeprom_read_byte((uint8_t*)3);
-		ledState = eeprom_read_byte((uint8_t*)4);
-		isHourBeepActive = eeprom_read_byte((uint8_t*)5);
-		isForwardCorrection = eeprom_read_byte((uint8_t*)6);
-		correctionTime = eeprom_read_byte((uint8_t*)7);
-		isCanShowDate =	eeprom_read_byte((uint8_t*)8);
-		alarmHour = eeprom_read_byte((uint8_t*)9);
-		alarmMin = eeprom_read_byte((uint8_t*)10);
-		hourBeepStart = eeprom_read_byte((uint8_t*)11);
-		hourBeepStop = eeprom_read_byte((uint8_t*)12);
-		hourNightModeStart = eeprom_read_byte((uint8_t*)13);
-		hourNightModeStop = eeprom_read_byte((uint8_t*)14);
-		isNightModeActive = eeprom_read_byte((uint8_t*)15);
-		} else {
-		eeprom_write_byte((uint8_t*)2, bright);
-		eeprom_write_byte((uint8_t*)3, isAlarmActive);
-		eeprom_write_byte((uint8_t*)4, ledState);
-		eeprom_write_byte((uint8_t*)5, isHourBeepActive);
-		eeprom_write_byte((uint8_t*)6, isForwardCorrection);
-		eeprom_write_byte((uint8_t*)7, correctionTime);
-		eeprom_write_byte((uint8_t*)8, isCanShowDate);
-		eeprom_write_byte((uint8_t*)9, alarmHour);
-		eeprom_write_byte((uint8_t*)10, alarmMin);
-		eeprom_write_byte((uint8_t*)11, hourBeepStart);
-		eeprom_write_byte((uint8_t*)12, hourBeepStop);
-		eeprom_write_byte((uint8_t*)13, hourNightModeStart);
-		eeprom_write_byte((uint8_t*)14, hourNightModeStop);
-		eeprom_write_byte((uint8_t*)15, isNightModeActive);
+		bright = eepromReadByte(eeprom_address_bright);
+		isAlarmActive = eepromReadByte(eeprom_address_isAlarmActive);
+		ledState = eepromReadByte(eeprom_address_ledState);
+		isHourBeepActive = eepromReadByte(eeprom_address_isHourBeepActive);
+		isForwardCorrection = eepromReadByte(eeprom_address_isForwardCorrection);
+		correctionTime = eepromReadByte(eeprom_address_correctionTime);
+		isCanShowDate =	eepromReadByte(eeprom_address_isCanShowDate);
+		alarmHour = eepromReadByte(eeprom_address_alarmHour);
+		alarmMin = eepromReadByte(eeprom_address_alarmMin);
+		hourBeepStart = eepromReadByte(eeprom_address_hourBeepStart);
+		hourBeepStop = eepromReadByte(eeprom_address_hourBeepStop);
+		hourNightModeStart = eepromReadByte(eeprom_address_hourNightModeStart);
+		hourNightModeStop = eepromReadByte(eeprom_address_hourNightModeStop);
+		isNightModeActive = eepromReadByte(eeprom_address_isNightModeActive);
+		daysBeforeCorrection = eepromReadByte(eeprom_address_daysBeforeCorrection);
+	} else {
+		eepromWriteByte(eeprom_address_bright, bright);
+		eepromWriteByte(eeprom_address_isAlarmActive, isAlarmActive);
+		eepromWriteByte(eeprom_address_ledState, ledState);
+		eepromWriteByte(eeprom_address_isHourBeepActive, isHourBeepActive);
+		eepromWriteByte(eeprom_address_isForwardCorrection, isForwardCorrection);
+		eepromWriteByte(eeprom_address_correctionTime, correctionTime);
+		eepromWriteByte(eeprom_address_isCanShowDate, isCanShowDate);
+		eepromWriteByte(eeprom_address_alarmHour, alarmHour);
+		eepromWriteByte(eeprom_address_alarmMin, alarmMin);
+		eepromWriteByte(eeprom_address_hourBeepStart, hourBeepStart);
+		eepromWriteByte(eeprom_address_hourBeepStop, hourBeepStop);
+		eepromWriteByte(eeprom_address_hourNightModeStart, hourNightModeStart);
+		eepromWriteByte(eeprom_address_hourNightModeStop, hourNightModeStop);
+		eepromWriteByte(eeprom_address_isNightModeActive, isNightModeActive);
+		eepromWriteByte(eeprom_address_daysBeforeCorrection, daysBeforeCorrection);
 		rtc_run_clock(true);
 	}
 	
@@ -188,18 +74,18 @@ void init(){
 
 void mainCycle(){
 	dateTime = rtc_get_time();
-	if (modeWork == 0) {
+	if (modeWork == mw_Clock) {
 		if (lastSec != dateTime.sec && firstStart != 201) {
-			dateTime.hour = 10;
-			dateTime.min = 59;
+			dateTime.hour = 19;
+			dateTime.min = 15;
 			dateTime.sec = 50;
-			dateTime.wday = 4;
-			dateTime.day = 12;
-			dateTime.month = 10;
-			dateTime.year = 17;
+			dateTime.wday = 5;
+			dateTime.day = 20;
+			dateTime.month = 1;
+			dateTime.year = 18;
 			rtc_set_time(dateTime);
 			firstStart = 201;
-			eeprom_write_byte((uint8_t*)1, firstStart);
+			eepromWriteByte(eeprom_address_firstStart, firstStart);
 			initStartDate();
 		}
 		checkCorrectionTime();
@@ -213,19 +99,19 @@ void mainCycle(){
 		}
 	}
 	if (!isEtchingCanStart || isAlarmTime) {
-		if (modeWork == 0) {
-			rank = 0;
+		if (modeWork == mw_Clock) {
+			rank = rank_null;
 			checkNightMode();
 			showTimeMode();
-			} else {
+		} else {
 			switchOffBeepValues();
 			if (lastSec != dateTime.sec) {
 				lastSec = dateTime.sec;
 				if (returnTime == 0) {
-					modeWork = 0;
+					modeWork = mw_Clock;
 					resetButtonPress();
 					flashDownInit();
-					} else {
+				} else {
 					returnTime--;
 				}
 			}
@@ -236,7 +122,7 @@ void mainCycle(){
 		tubeAsMode();
 		buttonAnalyzer();
 		setTubeDC(false);
-		} else {
+	} else {
 		button = 0;
 		resetButtonPress();
 		if (isDotEtching) {
@@ -283,7 +169,7 @@ void tubeSwitch() {
 	switchPort(PORTC, tubePin25, 1);
 	switchPort(PORTC, tubePin36, 1);
 	
-	if (modeWork > 0) {
+	if (modeWork > mw_Clock) {
 		for (uint8_t i = 0; i < 6; i++) {
 			if (isTubeFlash[i]) {
 				if (millis() - tubeOnOffCounter >= 150) {
@@ -291,7 +177,7 @@ void tubeSwitch() {
 					if (millis() - tubeOnOffCounter >= 550) {
 						tubeOnOffCounter = millis() ;
 					}
-					} else {
+				} else {
 					isTubeOff[i] = false;
 				}
 				} else {
@@ -363,19 +249,21 @@ void setTubeDC(bool isEtching){
 
 void checkNightMode() {
 	if (isNightModeActive) {
-		if (hourNightModeStart > hourNightModeStop){
-			if (dateTime.hour >= hourNightModeStop && dateTime.hour < hourNightModeStart) {
-				setDayMode();
-			} else {
+		if (hourNightModeStart == hourNightModeStop) {
+			setNightMode();
+			return;
+		} else if (hourNightModeStart > hourNightModeStop){
+			if (!(dateTime.hour > hourNightModeStop && dateTime.hour <= hourNightModeStart)){
 				setNightMode();
+				return;
 			}
 		} else {
 			if (dateTime.hour >= hourNightModeStart && dateTime.hour < hourNightModeStop) {
 				setNightMode();
-			} else {
-				setDayMode();
-			}
+				return;
+			} 
 		}
+		setDayMode();
 	}
 }
 
@@ -393,8 +281,6 @@ void setDayMode(){
 	switchPort(PORTB,ledPin, ledState);
 }
 
-
-
 void checkAlarmTime() {
 	if (isAlarmActive) {
 		if (dateTime.hour == alarmHour) {
@@ -405,7 +291,7 @@ void checkAlarmTime() {
 					lastSec = 59;
 					isUserTurnOffAlarm = false;
 				}
-				} else {
+			} else {
 				if (isAlarmTime) {
 					isAlarmTime = false;
 					isUserTurnOffAlarm = true;
@@ -419,35 +305,35 @@ void checkAlarmTime() {
 void checkCorrectionTime() {
 	if (correctionTime > 0) {
 		if (lastDay != dateTime.day) {
-			if (dateTime.hour == 3 && dateTime.min >= 1) {
-				if (!isForwardCorrection) {
-					bufByte = dateTime.sec - correctionTime;
-					if (bufByte >= 0) {
-						dateTime.sec = bufByte;
-						} else {
-						dateTime.min--;
-						dateTime.sec = 60 - abs(bufByte);
-					}
-					} else {
-					bufByte = dateTime.sec + correctionTime;
-					if (bufByte < 60) {
-						dateTime.sec = bufByte;
-						} else {
-						dateTime.min++;
-						dateTime.sec = bufByte - 60;
-					}
-				}
-				lastSec = dateTime.sec;
-				rtc_set_time(dateTime);
-				setZeroDate();
-				lastDay = dateTime.day;
+			daysWithoutCorrection++;
+			if (!isCanShowDate) {
+				dateTime.day = 0;
 			}
-			} else {
-			setZeroDate();
+			lastDay = dateTime.day;
+			rtc_set_time(dateTime);
+		} else if (daysWithoutCorrection ==  daysBeforeCorrection){
+			if (dateTime.hour >= 3 && dateTime.min >= 3) {
+				uint16_t buf = dateTime.min * 60 + dateTime.sec;
+				if(!isForwardCorrection){
+					buf -= correctionTime;
+				} else {
+					buf += correctionTime;
+				}
+				dateTime.min = buf / 60;
+				dateTime.sec = buf % 60;
+				lastSec = dateTime.sec;
+				
+				rtc_set_time(dateTime);
+				setZeroCorrectionDate();
+			}
 		}
 	}
 }
 
+void setZeroCorrectionDate() {
+	lastDay = dateTime.day;
+	daysWithoutCorrection = 0;
+}
 
 void flashDownInit() {
 	for (uint8_t i = 0; i < 6; i++) {
@@ -529,12 +415,12 @@ void buttonLongPress(){
 			isPressedButton1 = false;
 			} else {
 			if (isPressedButton2) {
-				if (modeWork == 0) {
+				if (modeWork == mw_Clock) {
 					ledState = !ledState;
 					switchPort(PORTB,ledPin, ledState);
 					if (!isNightTime) {
 						dayLedState = ledState;
-						eeprom_write_byte((uint8_t*)4, ledState);
+						eepromWriteByte(eeprom_address_ledState, ledState);
 					}
 				}
 			}
@@ -543,26 +429,29 @@ void buttonLongPress(){
 	}
 }
 
+void ActivateHourBeepByButton(bool status){
+	isHourBeepActive = status;
+	isHourBeepTime = isHourBeepActive;
+	isBeep1 = isHourBeepActive;
+	isUserTurnOnHourBeep = isHourBeepActive;
+	eepromWriteByte(eeprom_address_isHourBeepActive, isHourBeepActive);
+}
+
 void buttonShortPress() {
-	if (modeWork == 0) {
+	if (modeWork == mw_Clock) {
 		if (isPressedButton1) {
 			if (!isHourBeepTime) {
-				isHourBeepActive = !isHourBeepActive;
-				isHourBeepTime = isHourBeepActive;
-				isBeep1 = isHourBeepActive;
-				isUserTurnOnHourBeep = isHourBeepActive;
-				eeprom_write_byte((uint8_t*)5, isHourBeepActive);
+				ActivateHourBeepByButton(!isHourBeepActive);
 			}
 		}
 		if (isPressedButton2) {
-			bright = bright >= 3? 0: bright+1;
+			bright = bright >= 3? 0: bright + 1;
 			if (!isNightTime) {
 				dayBrightTmp = bright;
-				eeprom_write_byte((uint8_t*)2, bright);
+				eepromWriteByte(eeprom_address_bright, bright);
 			}
 		}
-		
-		} else if (modeWork == 1) {
+	} else if (modeWork == mw_SetSec) {
 		if (dateTime.sec >= 30) {
 			if (dateTime.min == 59) {
 				dateTime.min = 0;
@@ -583,7 +472,7 @@ void buttonShortPress() {
 						} else {
 						dateTime.day++;
 					}
-					lastDay = dateTime.day;
+					setZeroCorrectionDate();
 					} else {
 					dateTime.hour++;
 				}
@@ -597,104 +486,98 @@ void buttonShortPress() {
 		setDigit = 0;
 		lastSec = 0;
 		rtc_set_time(dateTime);
-		} else if (modeWork > 1 && modeWork < 17) {
-			if (modeWork == 7) {
-				isAlarmActive = !isAlarmActive;
-				setTube5DP();
-				setDigit = isAlarmActive;
-			} else {
-				if (modeWork == 10) {
-					isForwardCorrection = isForwardCorrection ? false: true;
-					setDigit = isForwardCorrection ? 1: 0;
-				} else if (modeWork == 14) {
-					isNightModeActive = !isNightModeActive;
-					setDigit = isNightModeActive ? 1: 0;
-				} else {
-					if (isPressedButton1) {
-						setDigit++;
-					} else {
-						if (isPressedButton2) {
-							setDigit--;
-					}
-				}
+	} else {			
+			if (isPressedButton1) {
+				setDigit++;
+			} else if (isPressedButton2) {
+				setDigit--;
 			}
-		}
-		if (setDigit > maxValueOfSetDigit) {
-			setDigit = minValueOfSetDigit;
+
+			if (setDigit > maxValueOfSetDigit) {
+				setDigit = minValueOfSetDigit;
 			} else if (setDigit < minValueOfSetDigit) {
-			setDigit = maxValueOfSetDigit;
-		}
+				setDigit = maxValueOfSetDigit;
+			}
 	}
 }
 
 void firstButtonLongPress() {
-	if (modeWork > 1 && modeWork < 4) {
-		lastDay = dateTime.day;
-	}
 	switch(modeWork) {
-		case 2:
+		case mw_SetMin:
 			dateTime.min = setDigit;
 			lastEtchingMin = dateTime.min;
 			break;
-		case 3:
+		case mw_SetHour:
 			dateTime.hour = setDigit;
 			lastHour = dateTime.hour;
 			break;
-		case 4:  
+		case mw_SetYear:  
 			dateTime.year = setDigit; 
 			break;
-		case 5: 
+		case mw_SetMonth: 
 			dateTime.month = setDigit;
 			break;
-		case 6:
+		case mw_SetDay:
 			dateTime.day = setDigit;
-			isCanShowDate = dateTime.day == 0 ? false : true;
+			isCanShowDate = dateTime.day;
 			break;
-		case 7:
-			eeprom_write_byte((uint8_t*)3, isAlarmActive);
+		case mw_SetIsAlarmActive:
+			isAlarmActive = setDigit;
+			eepromWriteByte(eeprom_address_isAlarmActive, isAlarmActive);
 			break;
-		case 8:
+		case mw_SetAlarmMin:
 			alarmMin = setDigit;
-			eeprom_write_byte((uint8_t*)10, alarmMin);
+			eepromWriteByte(eeprom_address_alarmMin, alarmMin);
 			break;
-		case 9:
+		case mw_SetAlarmHour:
 			alarmHour = setDigit;
-			eeprom_write_byte((uint8_t*)9, alarmHour);
+			eepromWriteByte(eeprom_address_alarmHour, alarmHour);
 			break;
-		case 10:
-			lastDay = dateTime.day;
-			eeprom_write_byte((uint8_t*)6, isForwardCorrection);
+		case mw_SetIsForwardCorrection:
+			isForwardCorrection = setDigit;
+			eepromWriteByte(eeprom_address_isForwardCorrection, isForwardCorrection);
 			break;
-		case 11:
+		case mw_SetCorrectionTime:
 			correctionTime = setDigit;
-			eeprom_write_byte((uint8_t*)7, correctionTime);
+			eepromWriteByte(eeprom_address_correctionTime, correctionTime);
 			break;
-		case 12:
-			hourBeepStop = setDigit == 0? 24 : setDigit;
-			eeprom_write_byte((uint8_t*)12, hourBeepStop);
+		case mw_SetDaysBeforeCorrection:
+			daysBeforeCorrection = setDigit;
+			eepromWriteByte(eeprom_address_daysBeforeCorrection, daysBeforeCorrection);
 			break;
-		case 13:
-			hourBeepStart = setDigit;
-			eeprom_write_byte((uint8_t*)11, hourBeepStart);
+		case mw_SetIsHourBeepActive:
+			ActivateHourBeepByButton(setDigit);
 			break;
-		case 14:
-			eeprom_write_byte((uint8_t*)15, isNightModeActive);
+		case mw_SetHourBeepStop:
+			hourBeepStop = setDigit;
+			eepromWriteByte(eeprom_address_hourBeepStop, hourBeepStop);
 			break;
-		case 15:
-			hourNightModeStop = setDigit == 0? 24 : setDigit;
-			eeprom_write_byte((uint8_t*)14, hourNightModeStop);
+		case mw_SetHourBeepStart:
+			 hourBeepStart = setDigit;
+			eepromWriteByte(eeprom_address_hourBeepStart, hourBeepStart);
 			break;
-		case 16:
+		case mw_SetIsNightModeActive:
+			isNightModeActive = setDigit;
+			eepromWriteByte(eeprom_address_isNightModeActive, isNightModeActive);
+			break;
+		case mw_SetHourNightModeStop:
+			hourNightModeStop = setDigit;
+			eepromWriteByte(eeprom_address_hourNightModeStop, hourNightModeStop);
+			break;
+		case mw_SetHourNightModeStart:
 			hourNightModeStart = setDigit;
-			eeprom_write_byte((uint8_t*)13, hourNightModeStart);
+			eepromWriteByte(eeprom_address_hourNightModeStart, hourNightModeStart);
 			break;
 	}
 	
-	if (modeWork > 1 && modeWork < 7) {
+	if (modeWork >= mw_SetMin && modeWork <= mw_SetDay) {
 		rtc_set_time(dateTime);
 	}
-	
-	modeWork = modeWork < 16? modeWork + 1 : 0;
+	if ((modeWork >= mw_SetSec && modeWork <= mw_SetDay)
+		|| (modeWork >= mw_SetIsForwardCorrection && modeWork <= mw_SetDaysBeforeCorrection)) {
+		setZeroCorrectionDate();
+	}
+	modeWork = modeWork < mw_LastMW? modeWork + 1 : 0;
 	flashDownInit();
 	isSetModeFirstTime = true;
 }
@@ -745,7 +628,6 @@ void clockBeeper() {
 	}
 }
 
-
 void showTimeMode() {
 	if (isAlarmTime) {
 		if (!isUserTurnOffAlarm) {
@@ -766,17 +648,15 @@ void showTimeMode() {
 				clockBeeper();
 			} else {
 				if (hourBeepStart > hourBeepStop){
-					if (dateTime.hour > hourBeepStop && dateTime.hour < hourBeepStart) {
-						
-						} else {
+					if (!(dateTime.hour > hourBeepStop && dateTime.hour < hourBeepStart)) {
 						clockBeeper();
 					}
-					} else {
+				} else {
 					if (dateTime.hour >= hourBeepStart && dateTime.hour <= hourBeepStop) {
 						clockBeeper();
 					}
-					}
 				}
+			}
 		}
 	}
 	setTube5DP();
@@ -796,7 +676,7 @@ void showTimeMode() {
 	}
 	
 	tubeMode = dateTime.sec > 50 && dateTime.sec < 54 
-			&& isCanShowDate ? 1 : 0;
+			&& isCanShowDate ? tm_ShowDate : tm_ShowTime;
 }
 
 void setTube5DP() {
@@ -812,13 +692,6 @@ void setRankLimit(uint8_t upper, uint8_t lower) {
 	minValueOfSetDigit = lower;
 }
 
-void setZeroDate() {
-	if (!isCanShowDate) {
-		dateTime.day = 0;
-		rtc_set_time(dateTime);
-	}
-}
-
 uint8_t getMaxMounthDay() {
 	if (dateTime.month == 2) {
 		return dateTime.year % 4 == 0 ? 29 : 28;
@@ -828,98 +701,122 @@ uint8_t getMaxMounthDay() {
 }
 
 void assignSetDigit() {
-	if (modeWork < 4) {
-		tubeMode = 0;
-		rank = 4 - modeWork;
-		} else if (modeWork < 7) {
-		tubeMode = 1;
-		rank = 7 - modeWork;
-		} else if (modeWork < 10) {
-		tubeMode = 2;
-		rank = 10 - modeWork;
-		} else if (modeWork < 12) {
-		tubeMode = 3;
-		rank = 13 - modeWork;
-		} else if (modeWork < 14) {
-		tubeMode = 4;
-		rank = 14 - modeWork;
-		} else if (modeWork < 17) {
-		tubeMode = 5;
-		rank = 17 - modeWork;
+
+	if (modeWork <= mw_SetHour) {
+		tubeMode = tm_ShowTime;
+		rank = mw_SetHour;
+	} else if (modeWork <= mw_SetDay) {
+		tubeMode = tm_ShowDate;
+		rank = mw_SetDay;
+	} else if (modeWork <= mw_SetAlarmHour) {
+		tubeMode = tm_ShowAlarm;
+		rank = mw_SetAlarmHour;
+	} else if (modeWork <= mw_SetDaysBeforeCorrection) {
+		tubeMode = tm_ShowCorrection;
+		rank = mw_SetDaysBeforeCorrection;
+	} else if (modeWork <= mw_SetHourBeepStart) {
+		tubeMode = tm_ShowHourBeep;
+		rank = mw_SetHourBeepStart;
+	} else if (modeWork <= mw_SetHourNightModeStart) {
+		tubeMode = tm_ShowNightMode;
+		rank = mw_SetHourNightModeStart;
 	}
+	rank -= modeWork - 1;
+	
 	isSetModeFirstTime = false;
-	bufByte = rank * 2;
+	int8_t bufByte = rank * 2;
 	for (uint8_t i = bufByte - 2; i < bufByte; i++) {
 		isTubeFlash[i] = true;
 	}
 	
-	if (tubeMode == 0) {
+	if (tubeMode == tm_ShowTime) {
 		switch(rank) {
-			case 1:
-			setDigit = dateTime.hour;
-			setRankLimit(23, 0);
-			break;
-			case 2:
-			setDigit = dateTime.min;
-			setRankLimit(59, 0);
-			break;
+			case rank_tube_12:
+				setDigit = dateTime.hour;
+				setRankLimit(23, 0);
+				break;
+			case rank_tube_34:
+				setDigit = dateTime.min;
+				setRankLimit(59, 0);
+				break;
 		}
-	} else if (tubeMode == 1) {
+	} else if (tubeMode == tm_ShowDate) {
 		switch(rank) {
-			case 1:
-			setDigit = dateTime.day;
-			setRankLimit(getMaxMounthDay(), 0);
-			break;
-			case 2:
-			setDigit = dateTime.month;
-			setRankLimit(12, 1);
-			break;
-			case 3:
-			setDigit = dateTime.year;
-			setRankLimit(41, 17);
-			break;
+			case rank_tube_12:
+				setDigit = dateTime.day;
+				setRankLimit(getMaxMounthDay(), 0);
+				break;
+			case rank_tube_34:
+				setDigit = dateTime.month;
+				setRankLimit(12, 1);
+				break;
+			case rank_tube_56:
+				setDigit = dateTime.year;
+				setRankLimit(41, 17);
+				break;
 		}
-	} else if (tubeMode == 2) {
+	} else if (tubeMode == tm_ShowAlarm) {
 		setTube5DP();
 		switch(rank) {
-			case 1:
-			setDigit = alarmHour;
-			setRankLimit(23, 0);
-			break;
-			case 2:
-			setDigit = alarmMin;
-			setRankLimit(59, 0);
-			break;
-			case 3: setDigit = isAlarmActive; break;
+			case rank_tube_12:
+				setDigit = alarmHour;
+				setRankLimit(23, 0);
+				break;
+			case rank_tube_34:
+				setDigit = alarmMin;
+				setRankLimit(59, 0);
+				break;
+			case rank_tube_56: 
+				setDigit = isAlarmActive; 
+				setRankLimit(1, 0);
+				break;
 		}
-	} else if (tubeMode == 3) {
-		correctionTime = eeprom_read_byte((uint8_t*)7);
+	} else if (tubeMode == tm_ShowCorrection) {
+		correctionTime = eepromReadByte(eeprom_address_correctionTime);
 		switch(rank) {
-			case 2: setDigit = correctionTime; break;
-			case 3: setDigit = isForwardCorrection; break;
-	}
-	} else if (tubeMode == 4) {
-	switch(rank) {
-		case 1:
-		setDigit = hourBeepStart;
-		break;
-		case 2:
-		setDigit = hourBeepStop == 24? 0: hourBeepStop;
-		break;
-	}
-	setRankLimit(23, 0);
-	}  else if (tubeMode == 5) {
-	switch(rank) {
-		case 1:
-		setDigit = hourNightModeStart;
-		setRankLimit(23, 0);
-		break;
-		case 2:
-		setDigit = hourNightModeStop == 24? 0: hourNightModeStop;
-		setRankLimit(23, 0);
-		break;
-		case 3: setDigit = isNightModeActive; break;
-	}
+			case rank_tube_12:
+				setDigit = daysBeforeCorrection;
+				setRankLimit(99, 0);
+				break;
+			case rank_tube_34: 
+				setDigit = correctionTime; 
+				setRankLimit(99, 0);
+				break;
+			case rank_tube_56: 
+				setDigit = isForwardCorrection; 
+				setRankLimit(1, 0);
+				break;
+		}
+	} else if (tubeMode == tm_ShowHourBeep) {
+		switch(rank) {
+			case rank_tube_12:
+				setDigit = hourBeepStart;
+				setRankLimit(23, 0);
+				break;
+			case rank_tube_34:
+				setDigit = hourBeepStop;
+				setRankLimit(23, 0);
+				break;
+			case rank_tube_56:
+				setDigit = isHourBeepActive;
+				setRankLimit(1, 0);
+				break;
+		}
+	}  else if (tubeMode == tm_ShowNightMode) {
+		switch(rank) {
+			case rank_tube_12:
+				setDigit = hourNightModeStart;
+				setRankLimit(23, 0);
+				break;
+			case rank_tube_34:
+				setDigit = hourNightModeStop;
+				setRankLimit(23, 0);
+				break;
+			case rank_tube_56: 
+				setDigit = isNightModeActive;
+				setRankLimit(1, 0);
+				break;
+		}
 	}
 }
 
@@ -930,42 +827,50 @@ void fillTubeValueFromIndex(uint8_t startIndex, uint8_t value) {
 }
 
 void tubeAsMode() {
-	if (tubeMode == 0) {
-		fillTubeValueFromIndex(1, dateTime.hour);
-		fillTubeValueFromIndex(2, dateTime.min);
-		fillTubeValueFromIndex(3, dateTime.sec);
-	} else if (tubeMode == 1) {
-		fillTubeValueFromIndex(1, dateTime.day);
-		fillTubeValueFromIndex(2, dateTime.month);
-		fillTubeValueFromIndex(3, dateTime.year);
-	} else if (tubeMode == 2) {
-		fillTubeValueFromIndex(1, alarmHour);
-		fillTubeValueFromIndex(2, alarmMin);
-		fillTubeValueFromIndex(3, isAlarmActive);
+	if (tubeMode == tm_ShowTime) {
+		fillTubeValueFromIndex(rank_tube_12, dateTime.hour);
+		fillTubeValueFromIndex(rank_tube_34, dateTime.min);
+		fillTubeValueFromIndex(rank_tube_56, dateTime.sec);
+	} else if (tubeMode == tm_ShowDate) {
+		fillTubeValueFromIndex(rank_tube_12, dateTime.day);
+		fillTubeValueFromIndex(rank_tube_34, dateTime.month);
+		fillTubeValueFromIndex(rank_tube_56, dateTime.year);
+	} else if (tubeMode == tm_ShowAlarm) {
+		fillTubeValueFromIndex(rank_tube_12, alarmHour);
+		fillTubeValueFromIndex(rank_tube_34, alarmMin);
+		fillTubeValueFromIndex(rank_tube_56, isAlarmActive);
 		setTube5DP();
-	} else if (tubeMode == 3) {
-		fillTubeValueFromIndex(1, 0);
-		fillTubeValueFromIndex(2, correctionTime);
-		fillTubeValueFromIndex(3, isForwardCorrection);
-	} else if (tubeMode == 4) {
-		fillTubeValueFromIndex(1, hourBeepStart);
-		fillTubeValueFromIndex(2, hourBeepStop);
-		fillTubeValueFromIndex(3, 0);
-	} else if (tubeMode == 5) {
-		fillTubeValueFromIndex(1, hourNightModeStart);
-		fillTubeValueFromIndex(2, hourNightModeStop);
-		fillTubeValueFromIndex(3, isNightModeActive);
+	} else if (tubeMode == tm_ShowCorrection) {
+		fillTubeValueFromIndex(rank_tube_12, daysBeforeCorrection);
+		fillTubeValueFromIndex(rank_tube_34, correctionTime);
+		fillTubeValueFromIndex(rank_tube_56, isForwardCorrection);
+	} else if (tubeMode == tm_ShowHourBeep) {
+		fillTubeValueFromIndex(rank_tube_12, hourBeepStart);
+		fillTubeValueFromIndex(rank_tube_34, hourBeepStop);
+		fillTubeValueFromIndex(rank_tube_56, isHourBeepActive);
+	} else if (tubeMode == tm_ShowNightMode) {
+		fillTubeValueFromIndex(rank_tube_12, hourNightModeStart);
+		fillTubeValueFromIndex(rank_tube_34, hourNightModeStop);
+		fillTubeValueFromIndex(rank_tube_56, isNightModeActive);
 	}
 	
-	if (rank != 0) {
-		if (tubeMode == 0 && rank == 3) {
+	if (rank != rank_null) {
+		if (tubeMode == tm_ShowTime && rank == rank_tube_56) {
 			setDigit = dateTime.sec;
 		}
-		for (uint8_t k = 1; k < 4; k++) {
+		for (uint8_t k = rank_tube_12; k <= rank_tube_56; k++) {
 			if (rank == k) {
 				fillTubeValueFromIndex(rank, setDigit);
 				break;
 			}
 		}
 	}
+}
+
+void eepromWriteByte(uint8_t address, uint8_t value){
+	 eeprom_write_byte((uint8_t*)(uint16_t)address, value);
+}
+
+uint8_t eepromReadByte(uint8_t address){
+	return eeprom_read_byte((uint8_t*)(uint16_t)address);
 }
