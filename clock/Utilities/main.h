@@ -34,24 +34,10 @@ uint8_t EEMEM eeprom_bright = 3;
 uint8_t EEMEM eeprom_ledState = 1;
 uint8_t EEMEM eeprom_isHourBeepActive = 1;
 
-uint8_t EEMEM eeprom_correctionIsForward = 1;
-uint8_t EEMEM eeprom_correctionValue = 0;
-uint8_t EEMEM eeprom_correctionInterval = 0;
-uint8_t EEMEM eeprom_correctionLastDay = 0;
-uint8_t EEMEM eeprom_correctionLastMonth = 0;
-uint8_t EEMEM eeprom_correctionLastYear = 0;
-
-uint8_t EEMEM eeprom_showDateIsActive = 1;
-uint8_t EEMEM eeprom_showDateStart = 51;
-uint8_t EEMEM eeprom_showDateStop = 53;
-
 uint8_t EEMEM eeprom_isAlarmActive = 0;
 uint8_t EEMEM eeprom_alarmHour = 7;
 uint8_t EEMEM eeprom_alarmMin = 0;
 
-uint8_t EEMEM eeprom_hourNightModeStart = 22;
-uint8_t EEMEM eeprom_hourNightModeStop = 7;
-uint8_t EEMEM eeprom_nightMode = 2;
 uint8_t EEMEM eeprom_nightThreshold = 12;
 
 	
@@ -70,31 +56,15 @@ uint8_t EEMEM eeprom_nightThreshold = 12;
 #define mw_SetMonth 8
 #define mw_SetDay 9
 
-#define mw_SetDateShow 10
-#define mw_SetDateShowStop 11
-#define mw_SetDateShowStart 12
+#define mw_SetThrashhold 10
 
-#define mw_SetIsNightModeActive 13
-#define mw_SetHourNightModeStop 14
-#define mw_SetHourNightModeStart 15
-
-#define mw_SetThrashhold 16
-//17-18
-
-#define mw_SetCorrectionTurn 19
-#define mw_SetCorrectionTime 20
-#define mw_SetCorrectionInterval 21
-
-#define mw_LastMW mw_SetCorrectionInterval
+#define mw_LastMW mw_SetThrashhold
 
 #define tm_Etching -1
 #define tm_ShowTime 0
 #define tm_ShowAlarm 1
 #define tm_ShowDate 2
-#define tm_ShowDateSettings 3
-#define tm_ShowNightMode 4
-#define tm_ShowNightModeThrashhold 5
-#define tm_ShowCorrection 6
+#define tm_ShowNightModeThrashhold 3
 
 #define rank_null 0
 #define rank_tube_12 1

@@ -45,24 +45,15 @@ void init() {
 	ledBlinking.startValue = 5;
 	isLedActive = eeprom_read_byte(&eeprom_ledState);
 
-	correction.isForward = eeprom_read_byte(&eeprom_correctionIsForward);
-	correction.value = eeprom_read_byte(&eeprom_correctionValue);
-	correction.interval = eeprom_read_byte(&eeprom_correctionInterval);
-	correction.year = eeprom_read_byte(&eeprom_correctionLastYear);
-	correction.stamp = calcTimeStamp(eeprom_read_byte(&eeprom_correctionLastDay), eeprom_read_byte(&eeprom_correctionLastMonth),correction.year);
-	
-	nightMode.hourStart = eeprom_read_byte(&eeprom_hourNightModeStart);
-	nightMode.hourStop = eeprom_read_byte(&eeprom_hourNightModeStop);
-	nightMode.modeType = eeprom_read_byte(&eeprom_nightMode);
 	nightMode.isActive = false;
 	nightMode.thresholdInit = eeprom_read_byte(&eeprom_nightThreshold);
 	nightMode.threshold =  20 * nightMode.thresholdInit;
 	nightMode.isCanTryActivate = true;
 	nightMode.autoStamp = 0;
 	
-	showDate.start = eeprom_read_byte(&eeprom_showDateStart);
-	showDate.stop = eeprom_read_byte(&eeprom_showDateStop);
-	showDate.isActive = eeprom_read_byte(&eeprom_showDateIsActive);
+	showDate.start = 51;
+	showDate.stop = 53;
+	showDate.isActive = true;
 	
 	switchPort(PORTB, ledPin, isLedActive);
 	tube.isDoteActive[4] = alarm.isActive;
@@ -77,7 +68,6 @@ void init() {
 	button.num = 0;
 	button.bounceTime = 0;
 	button.longPressTime = 0;
-	resetCorrectionParams();
 	initMillis();
 }
 
@@ -88,7 +78,6 @@ int main(void) {
 		buttonController();
 		if (modeWork == mw_Clock) {
 			checkNightMode();
-			timeCorrection();
 			showDissallowedTask();
 			if (alarm.isActive) {
 				if (dateTime.hour == alarm.startHour && dateTime.min == alarm.startMin && dateTime.day != alarm.lastDay) {
@@ -177,14 +166,6 @@ int main(void) {
 	}
 }
 
-void resetCorrectionParams() {
-	correction.year = dateTime.year;
-	correction.stamp = calcTimeStamp(dateTime.day, dateTime.month, correction.year);
-	eeprom_update_byte(&eeprom_correctionLastDay, dateTime.day);
-	eeprom_update_byte(&eeprom_correctionLastMonth, dateTime.month);
-	eeprom_update_byte(&eeprom_correctionLastYear, correction.year);
-}
-
 void translitDecoder(char tubeVal) {
 	for (int i = 0; i < 4; i++) {
 		tube.dc[i] = 0;
@@ -241,97 +222,27 @@ void tubeSwitch() {
 }
 
 
-uint64_t calcTimeStamp(uint8_t day, uint8_t month, uint8_t year) {
-	uint64_t stamp = day;
-	if (month > 1) {
-		for(uint8_t i = 1; i < month - 1; i++) {
-			if (i == 2) {
-				stamp += year % 4 == 0? 29: 28;
-			} else {
-				if (i < 8) {
-					stamp += month % 2 == 1? 31: 30;
-				} else {
-					stamp += month % 2 == 0? 31: 30;
-				}
-				
-			}
-		}
-	}
-	return stamp;
-}
-
-void timeCorrection() {
-	if (correction.value == 0 || correction.interval == 0) {
-		return;
-	}
-	if (!(dateTime.min > 2 && dateTime.min < 58)) {
-		return;
-	}
-	
-	uint64_t stampDatetime = calcTimeStamp(dateTime.day, dateTime.month, dateTime.year);
-	bool isCanCorrect = false;
-	
-	if (dateTime.year == correction.year) {
-		if (stampDatetime - correction.stamp >= correction.interval) {
-			isCanCorrect = true;
-		}
-	} else {
-		uint8_t daysInYear = correction.year % 4? 366: 365;
-		correction.stamp = daysInYear - correction.stamp;
-		if (correction.stamp + stampDatetime >= correction.interval ) {
-			isCanCorrect = true;
-		}
-	}
-	if (!isCanCorrect) {
-		return;
-	}
-	
-	uint16_t correctionStamp = dateTime.min * 60 + dateTime.sec;
-	if (correction.isForward) {
-		correctionStamp += correction.value;
-	} else {
-		correctionStamp -= correction.value;
-	}
-	
-	dateTime.sec = correctionStamp % 60;
-	dateTime.min = correctionStamp / 60;
-	resetCorrectionParams();
-	ds1307_setdate(dateTime);
-}
-
 void checkNightMode() {
-	if (nightMode.modeType == 1) {
-		if (nightMode.hourStart == nightMode.hourStop) {
-			setNightMode();
+	if (getADC(7) >= nightMode.threshold) {
+		if (nightMode.isCanTryActivate && millis() - nightMode.autoStamp >= 5000) {
+			nightMode.isActive = true;
+			bright.level = 0;
+			if (ledBlinking.count == 0) {
+				switchPort(PORTB,ledPin, false);
+			}
 			return;
-		} else if (nightMode.hourStart > nightMode.hourStop){
-			if (!(dateTime.hour > nightMode.hourStop && dateTime.hour <= nightMode.hourStart)){
-				setNightMode();
-				return;
-			}
-		} else {
-			if (dateTime.hour >= nightMode.hourStart && dateTime.hour < nightMode.hourStop) {
-				setNightMode();
-				return;
-			}
 		}
-	} else if (nightMode.modeType == 2) {
-		if (getADC(7) >= nightMode.threshold) {
-			if (nightMode.isCanTryActivate && millis() - nightMode.autoStamp >= 5000) {
-				setNightMode();
-				return;
-			}
-		} else {
-			nightMode.isCanTryActivate = false;
-		}
+	} else {
+		nightMode.isCanTryActivate = false;
 	}
+	
 	
 	if (!nightMode.isCanTryActivate) {
 		nightMode.isCanTryActivate = true;
 		nightMode.autoStamp = millis();
 	}
 		
-	if (nightMode.modeType != 0 && nightMode.isActive) {
+	if (nightMode.isActive) {
 		nightMode.isActive = false;
 		bright.level = bright.dayLevel;
 		if (ledBlinking.count == 0) {
@@ -340,13 +251,6 @@ void checkNightMode() {
 	}
 }
 
-void setNightMode() {
-	nightMode.isActive = true;
-	bright.level = 0;
-	if (ledBlinking.count == 0) {
-		switchPort(PORTB,ledPin, false);
-	}
-}
 
 void resetButtons() {
 	button.isLongPress = false;
@@ -482,7 +386,6 @@ void buttonShortPress() {
 		editValue.value = 0;
 		prevSec = 0;
 		ds1307_setdate(dateTime);
-		resetCorrectionParams();
 		return;
 	} 
 	
@@ -509,32 +412,27 @@ void firstButtonLongPress() {
 			etching.lastMin = dateTime.min;
 			ds1307_setdate(dateTime);
 			alarm.lastDay = 0;
-			resetCorrectionParams();
 			break;
 		case mw_SetHour:
 			dateTime.hour = editValue.value;
 			hourBeep.lastHour = dateTime.hour;
 			ds1307_setdate(dateTime);
 			alarm.lastDay = 0;
-			resetCorrectionParams();
 			break;
 		case mw_SetYear:
 			dateTime.year = editValue.value;
 			ds1307_setdate(dateTime);
 			alarm.lastDay = 0;
-			resetCorrectionParams();
 			break;
 		case mw_SetMonth:
 			dateTime.month = editValue.value;
 			ds1307_setdate(dateTime);
 			alarm.lastDay = 0;
-			resetCorrectionParams();
 			break;
 		case mw_SetDay:
 			dateTime.day = editValue.value;
 			alarm.lastDay = 0;
 			ds1307_setdate(dateTime);
-			resetCorrectionParams();
 			break;
 		case mw_SetIsAlarmActive:
 			alarm.isActive = editValue.value;
@@ -551,45 +449,6 @@ void firstButtonLongPress() {
 			alarm.lastDay = 0;
 			eeprom_update_byte(&eeprom_alarmHour, alarm.startHour);
 			break;
-		case mw_SetDateShow:
-			showDate.isActive = editValue.value;
-			eeprom_update_byte(&eeprom_showDateIsActive, showDate.isActive);
-			break;
-		case mw_SetDateShowStop:
-			showDate.stop = editValue.value;
-			eeprom_update_byte(&eeprom_showDateStop, showDate.stop);
-			break;
-		case mw_SetDateShowStart:
-			showDate.start = editValue.value;
-			eeprom_update_byte(&eeprom_showDateStart, showDate.start);
-			break;
-		case mw_SetCorrectionTurn:
-			correction.isForward = editValue.value;
-			eeprom_update_byte(&eeprom_correctionIsForward, correction.isForward);
-			resetCorrectionParams();
-			break;
-		case mw_SetCorrectionTime:
-			correction.value = editValue.value;
-			eeprom_update_byte(&eeprom_correctionValue, correction.value);
-			resetCorrectionParams();
-			break;
-		case mw_SetCorrectionInterval:
-			correction.interval = editValue.value;
-			eeprom_update_byte(&eeprom_correctionInterval, correction.interval);
-			resetCorrectionParams();
-			break;
-		case mw_SetIsNightModeActive:
-			nightMode.modeType = editValue.value;
-			eeprom_update_byte(&eeprom_nightMode, nightMode.modeType);
-			break;
-		case mw_SetHourNightModeStop:
-			nightMode.hourStop = editValue.value;
-			eeprom_update_byte(&eeprom_hourNightModeStop, nightMode.hourStop);
-			break;
-		case mw_SetHourNightModeStart:
-			nightMode.hourStart = editValue.value;
-			eeprom_update_byte(&eeprom_hourNightModeStart, nightMode.hourStart);
-			break;
 		case mw_SetThrashhold:
 			nightMode.thresholdInit = editValue.value;
 			nightMode.threshold =  20 * nightMode.thresholdInit;
@@ -597,11 +456,7 @@ void firstButtonLongPress() {
 			break;
 	}
 	
-	if (modeWork == mw_SetThrashhold) {
-		modeWork = mw_SetCorrectionTurn;
-	} else {
-		modeWork = modeWork < mw_LastMW? modeWork + 1 : 0;
-	}
+	modeWork = modeWork < mw_LastMW? modeWork + 1 : 0;
 	
 	for (uint8_t i = 0; i < 6; i++) {
 		tube.isFlash[i] = false;
@@ -637,15 +492,9 @@ void assignEditDigit() {
 		tubeMode = tm_ShowAlarm;
 	} else if (modeWork >= mw_SetYear && modeWork <= mw_SetDay) {
 		tubeMode = tm_ShowDate;
-	} else if (modeWork >= mw_SetDateShow && modeWork <= mw_SetDateShowStart) {
-		tubeMode = tm_ShowDateSettings;
-	} else if (modeWork >= mw_SetIsNightModeActive && modeWork <= mw_SetHourNightModeStart) {
-		tubeMode = tm_ShowNightMode;
 	} else if (modeWork == mw_SetThrashhold) {
 		tubeMode = tm_ShowNightModeThrashhold;
-	} else if (modeWork >= mw_SetCorrectionTurn && modeWork <= mw_SetCorrectionInterval) {
-		tubeMode = tm_ShowCorrection;
-    }
+	}
 	
 	rank = 3 - ((modeWork + 2) % 3);
 	editValue.isGrabbed = true;
@@ -708,58 +557,6 @@ void assignEditDigit() {
 		}
 		return;
 	} 
-	if (tubeMode == tm_ShowCorrection) {
-		switch(rank) {
-			case rank_tube_12:
-				editValue.value = correction.interval;
-				setRankLimit(99, 0);
-				break;
-			case rank_tube_34:
-				editValue.value = correction.value;
-				setRankLimit(99, 0);
-				break;
-			case rank_tube_56:
-				editValue.value = correction.isForward;
-				setRankLimit(1, 0);
-				break;
-		}
-		return;
-	} 
-	if (tubeMode == tm_ShowNightMode) {
-		switch(rank) {
-			case rank_tube_12:
-				editValue.value = nightMode.hourStart;
-				setRankLimit(23, 0);
-				break;
-			case rank_tube_34:
-				editValue.value = nightMode.hourStop;
-				setRankLimit(23, 0);
-				break;
-			case rank_tube_56:
-				editValue.value = nightMode.modeType;
-				setRankLimit(2, 0);
-				break;
-		}
-		return;
-	}
-	if (tubeMode == tm_ShowDateSettings) {
-		uint8_t _maxStartValue = showDate.stop;
-		switch(rank) {
-			case rank_tube_12:
-				editValue.value = showDate.start > _maxStartValue? _maxStartValue: showDate.start;
-				setRankLimit(_maxStartValue, 0);
-				break;
-			case rank_tube_34:
-				editValue.value = showDate.stop;
-				setRankLimit(59, 0);
-				break;
-			case rank_tube_56:
-				editValue.value = showDate.isActive;
-				setRankLimit(1, 0);
-				break;
-		}
-		return;
-	}
 	
 	if (tubeMode == tm_ShowNightModeThrashhold) {
 		editValue.value = nightMode.thresholdInit;
@@ -789,26 +586,11 @@ void tubeAsMode() {
 			_tubeValue34 = dateTime.month;
 			_tubeValue56 = dateTime.year;
 			break;
-		case tm_ShowDateSettings:
-			_tubeValue12 = showDate.start;
-			_tubeValue34 = showDate.stop;
-			_tubeValue56 = showDate.isActive;
-			break;
 		case tm_ShowAlarm:
 			_tubeValue12 = alarm.startHour;
 			_tubeValue34 = alarm.startMin;
 			_tubeValue56 = alarm.isActive;
 			tube.isDoteActive[4] = alarm.isActive;
-			break;
-		case tm_ShowCorrection:
-			_tubeValue12 = correction.interval;
-			_tubeValue34 = correction.value;
-			_tubeValue56 = correction.isForward;
-			break;
-		case tm_ShowNightMode:
-			_tubeValue12 = nightMode.hourStart;
-			_tubeValue34 = nightMode.hourStop;
-			_tubeValue56 = nightMode.modeType;
 			break;
 		case tm_Etching:
 			_tubeValue12 = etching.value;
