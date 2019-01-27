@@ -163,8 +163,8 @@ int main(void) {
 		if (!alarm.isTurnedOff) {
 			if (alarm.beeper.canBeep && alarm.isActive) {
 				ledBlinking.isCanInit = true;
-			}
-			if (!hourBeep.beeper.canBeep) {
+				hourBeep.beeper.canBeep = false;
+				hourBeep.beeper.isCanInit = false;
 				beepController(&alarm.beeper);
 			}
 		} else {
