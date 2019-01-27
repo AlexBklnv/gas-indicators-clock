@@ -293,7 +293,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x17c6
+.text           0x00000000     0x17c4
  *(.vectors)
  .vectors       0x00000000       0x26 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4/crtatmega8.o
                 0x00000000                __vector_default
@@ -432,59 +432,59 @@ END GROUP
  .text._Z19showDissallowedTaskv
                 0x0000117a      0x15e main.o
                 0x0000117a                _Z19showDissallowedTaskv
- .text.main     0x000012d8      0x350 main.o
+ .text.main     0x000012d8      0x34e main.o
                 0x000012d8                main
  .text._Z8i2c_initv
-                0x00001628        0x8 Utilities/i2c.o
-                0x00001628                _Z8i2c_initv
+                0x00001626        0x8 Utilities/i2c.o
+                0x00001626                _Z8i2c_initv
  .text._Z9i2c_starth
-                0x00001630       0x3c Utilities/i2c.o
-                0x00001630                _Z9i2c_starth
+                0x0000162e       0x3c Utilities/i2c.o
+                0x0000162e                _Z9i2c_starth
  .text._Z14i2c_start_waith
-                0x0000166c       0x3c Utilities/i2c.o
-                0x0000166c                _Z14i2c_start_waith
+                0x0000166a       0x3c Utilities/i2c.o
+                0x0000166a                _Z14i2c_start_waith
  .text._Z13i2c_rep_starth
-                0x000016a8        0x4 Utilities/i2c.o
-                0x000016a8                _Z13i2c_rep_starth
+                0x000016a6        0x4 Utilities/i2c.o
+                0x000016a6                _Z13i2c_rep_starth
  .text._Z8i2c_stopv
-                0x000016ac        0xc Utilities/i2c.o
-                0x000016ac                _Z8i2c_stopv
+                0x000016aa        0xc Utilities/i2c.o
+                0x000016aa                _Z8i2c_stopv
  .text._Z9i2c_writeh
-                0x000016b8       0x1a Utilities/i2c.o
-                0x000016b8                _Z9i2c_writeh
+                0x000016b6       0x1a Utilities/i2c.o
+                0x000016b6                _Z9i2c_writeh
  .text._Z11i2c_readAckv
-                0x000016d2        0xe Utilities/i2c.o
-                0x000016d2                _Z11i2c_readAckv
+                0x000016d0        0xe Utilities/i2c.o
+                0x000016d0                _Z11i2c_readAckv
  .text._Z11i2c_readNakv
-                0x000016e0        0xe Utilities/i2c.o
-                0x000016e0                _Z11i2c_readNakv
+                0x000016de        0xe Utilities/i2c.o
+                0x000016de                _Z11i2c_readNakv
  .text.libgcc.div
-                0x000016ee       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_divmodhi4.o)
-                0x000016ee                _div
-                0x000016ee                __divmodhi4
- .text.libgcc   0x00001714       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_adddi3_s8.o)
-                0x00001714                __adddi3_s8
- .text.libgcc   0x0000172c       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_subdi3.o)
-                0x0000172c                __subdi3
- .text.libgcc   0x0000173e       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_cmpdi2.o)
-                0x0000173e                __cmpdi2
- .text.libgcc   0x00001750       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_cmpdi2_s8.o)
-                0x00001750                __cmpdi2_s8
+                0x000016ec       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_divmodhi4.o)
+                0x000016ec                _div
+                0x000016ec                __divmodhi4
+ .text.libgcc   0x00001712       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_adddi3_s8.o)
+                0x00001712                __adddi3_s8
+ .text.libgcc   0x0000172a       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_subdi3.o)
+                0x0000172a                __subdi3
+ .text.libgcc   0x0000173c       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_cmpdi2.o)
+                0x0000173c                __cmpdi2
+ .text.libgcc   0x0000174e       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_cmpdi2_s8.o)
+                0x0000174e                __cmpdi2_s8
  .text.libgcc.div
-                0x00001768       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_udivmodhi4.o)
-                0x00001768                __udivmodhi4
+                0x00001766       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_udivmodhi4.o)
+                0x00001766                __udivmodhi4
  .text.avr-libc
-                0x00001790       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eerd_byte.o)
-                0x00001790                eeprom_read_byte
+                0x0000178e       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eerd_byte.o)
+                0x0000178e                eeprom_read_byte
  .text.avr-libc
-                0x000017a0       0x22 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eeupd_byte.o)
-                0x000017a0                eeprom_update_byte
-                0x000017a2                eeprom_update_r18
-                0x000017c2                . = ALIGN (0x2)
+                0x0000179e       0x22 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eeupd_byte.o)
+                0x0000179e                eeprom_update_byte
+                0x000017a0                eeprom_update_r18
+                0x000017c0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000017c2        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
-                0x000017c2                _exit
-                0x000017c2                exit
+ .fini9         0x000017c0        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
+                0x000017c0                _exit
+                0x000017c0                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -503,11 +503,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000017c2        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
+ .fini0         0x000017c0        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
  *(.fini0)
-                0x000017c6                _etext = .
+                0x000017c4                _etext = .
 
-.data           0x00800060        0x0 load address 0x000017c6
+.data           0x00800060        0x0 load address 0x000017c4
                 [!provide]                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -568,8 +568,8 @@ END GROUP
                 0x0080010d                _millis
  *(COMMON)
                 0x00800115                PROVIDE (__bss_end, .)
-                0x000017c6                __data_load_start = LOADADDR (.data)
-                0x000017c6                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000017c4                __data_load_start = LOADADDR (.data)
+                0x000017c4                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800115        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -679,13 +679,13 @@ END GROUP
  .debug_abbrev  0x000008cd       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eerd_byte.o)
  .debug_abbrev  0x000008e1       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eeupd_byte.o)
 
-.debug_line     0x00000000     0x1814
+.debug_line     0x00000000     0x1820
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x109 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4/crtatmega8.o
- .debug_line    0x00000109     0x1389 main.o
- .debug_line    0x00001492      0x258 Utilities/i2c.o
- .debug_line    0x000016ea       0x7a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eerd_byte.o)
- .debug_line    0x00001764       0xb0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eeupd_byte.o)
+ .debug_line    0x00000109     0x1395 main.o
+ .debug_line    0x0000149e      0x258 Utilities/i2c.o
+ .debug_line    0x000016f6       0x7a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eerd_byte.o)
+ .debug_line    0x00001770       0xb0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8/avr4\libatmega8.a(eeupd_byte.o)
 
 .debug_frame    0x00000000      0x474
  *(.debug_frame)

@@ -92,7 +92,7 @@ int main(void) {
 					}
 				}
 			}
-			if (hourBeep.isActive) {
+			if (hourBeep.isActive && !nightMode.isActive) {
 				if (hourBeep.manualActivation || (hourBeep.lastHour != dateTime.hour && dateTime.min == 0 && alarm.startMin != 0)) 
 				{
 					hourBeep.manualActivation = false;
