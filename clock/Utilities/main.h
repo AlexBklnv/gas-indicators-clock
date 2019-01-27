@@ -38,7 +38,7 @@ uint8_t EEMEM eeprom_isAlarmActive = 0;
 uint8_t EEMEM eeprom_alarmHour = 7;
 uint8_t EEMEM eeprom_alarmMin = 0;
 
-uint8_t EEMEM eeprom_nightThreshold = 12;
+uint8_t EEMEM eeprom_nightThreshold = 25;
 
 	
 // Mode Work
