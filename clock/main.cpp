@@ -317,7 +317,7 @@ void checkNightMode() {
 		}
 	} else if (nightMode.modeType == 2) {
 		if (getADC(7) >= nightMode.threshold) {
-			if (nightMode.isCanTryActivate && millis() - nightMode.autoStamp >= 5000) {
+			if (nightMode.isCanTryActivate && millis() - nightMode.autoStamp >= 1000) {
 				setNightMode();
 				return;
 			}
