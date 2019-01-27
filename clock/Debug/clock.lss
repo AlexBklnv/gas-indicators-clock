@@ -3,15 +3,15 @@ clock.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00001f0c  00000000  00000000  00000094  2**1
+  0 .text         00001f0a  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  00001fb3  2**0
+  1 .data         00000000  00800060  00800060  00001fb1  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          000000c1  00800060  00800060  00001fa0  2**0
+  2 .bss          000000c1  00800060  00800060  00001f9e  2**0
                   ALLOC
-  3 .eeprom       00000013  00810000  00810000  00001fa0  2**0
+  3 .eeprom       00000013  00810000  00810000  00001f9e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  4 .comment      00000030  00000000  00000000  00001fb3  2**0
+  4 .comment      00000030  00000000  00000000  00001fb1  2**0
                   CONTENTS, READONLY
   5 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00001fe4  2**2
                   CONTENTS, READONLY
@@ -21,15 +21,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_abbrev 00000949  00000000  00000000  00004743  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00001c69  00000000  00000000  0000508c  2**0
+  9 .debug_line   00001c75  00000000  00000000  0000508c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00000594  00000000  00000000  00006cf8  2**2
+ 10 .debug_frame  00000594  00000000  00000000  00006d04  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00000d4c  00000000  00000000  0000728c  2**0
+ 11 .debug_str    00000d4c  00000000  00000000  00007298  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000017cb  00000000  00000000  00007fd8  2**0
+ 12 .debug_loc    000017cb  00000000  00000000  00007fe4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000178  00000000  00000000  000097a3  2**0
+ 13 .debug_ranges 00000178  00000000  00000000  000097af  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -105,7 +105,7 @@ Disassembly of section .text:
       76:	b2 07       	cpc	r27, r18
       78:	e1 f7       	brne	.-8      	; 0x72 <.do_clear_bss_loop>
       7a:	bb dc       	rcall	.-1674   	; 0xfffff9f2 <__eeprom_end+0xff7ef9df>
-      7c:	45 cf       	rjmp	.-374    	; 0xffffff08 <__eeprom_end+0xff7efef5>
+      7c:	44 cf       	rjmp	.-376    	; 0xffffff06 <__eeprom_end+0xff7efef3>
 
 0000007e <__bad_interrupt>:
       7e:	c0 cf       	rjmp	.-128    	; 0x0 <__vectors>
@@ -161,7 +161,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
       e2:	80 91 1f 01 	lds	r24, 0x011F	; 0x80011f <_millis+0x6>
       e6:	90 91 20 01 	lds	r25, 0x0120	; 0x800120 <_millis+0x7>
       ea:	a1 e0       	ldi	r26, 0x01	; 1
-      ec:	b6 de       	rcall	.-660    	; 0xfffffe5a <__eeprom_end+0xff7efe47>
+      ec:	b5 de       	rcall	.-662    	; 0xfffffe58 <__eeprom_end+0xff7efe45>
       ee:	e8 5e       	subi	r30, 0xE8	; 232
       f0:	f3 40       	sbci	r31, 0x03	; 3
       f2:	e8 3e       	cpi	r30, 0xE8	; 232
@@ -308,7 +308,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      228:	f1 a0       	ldd	r15, Z+33	; 0x21
      22a:	02 a1       	ldd	r16, Z+34	; 0x22
      22c:	13 a1       	ldd	r17, Z+35	; 0x23
-     22e:	21 de       	rcall	.-958    	; 0xfffffe72 <__eeprom_end+0xff7efe5f>
+     22e:	20 de       	rcall	.-960    	; 0xfffffe70 <__eeprom_end+0xff7efe5d>
      230:	25 39       	cpi	r18, 0x95	; 149
      232:	31 05       	cpc	r19, r1
      234:	41 05       	cpc	r20, r1
@@ -330,7 +330,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      254:	f1 a0       	ldd	r15, Z+33	; 0x21
      256:	02 a1       	ldd	r16, Z+34	; 0x22
      258:	13 a1       	ldd	r17, Z+35	; 0x23
-     25a:	0b de       	rcall	.-1002   	; 0xfffffe72 <__eeprom_end+0xff7efe5f>
+     25a:	0a de       	rcall	.-1004   	; 0xfffffe70 <__eeprom_end+0xff7efe5d>
      25c:	25 32       	cpi	r18, 0x25	; 37
      25e:	32 40       	sbci	r19, 0x02	; 2
      260:	41 05       	cpc	r20, r1
@@ -547,7 +547,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      404:	fe 80       	ldd	r15, Y+6	; 0x06
      406:	0f 81       	ldd	r16, Y+7	; 0x07
      408:	18 85       	ldd	r17, Y+8	; 0x08
-     40a:	1e dd       	rcall	.-1476   	; 0xfffffe48 <__eeprom_end+0xff7efe35>
+     40a:	1d dd       	rcall	.-1478   	; 0xfffffe46 <__eeprom_end+0xff7efe33>
      40c:	29 83       	std	Y+1, r18	; 0x01
      40e:	3a 83       	std	Y+2, r19	; 0x02
      410:	4b 83       	std	Y+3, r20	; 0x03
@@ -575,7 +575,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      43c:	fe 80       	ldd	r15, Y+6	; 0x06
      43e:	0f 81       	ldd	r16, Y+7	; 0x07
      440:	18 85       	ldd	r17, Y+8	; 0x08
-     442:	02 dd       	rcall	.-1532   	; 0xfffffe48 <__eeprom_end+0xff7efe35>
+     442:	01 dd       	rcall	.-1534   	; 0xfffffe46 <__eeprom_end+0xff7efe33>
      444:	29 83       	std	Y+1, r18	; 0x01
      446:	3a 83       	std	Y+2, r19	; 0x02
      448:	4b 83       	std	Y+3, r20	; 0x03
@@ -601,7 +601,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      470:	fe 80       	ldd	r15, Y+6	; 0x06
      472:	0f 81       	ldd	r16, Y+7	; 0x07
      474:	18 85       	ldd	r17, Y+8	; 0x08
-     476:	e8 dc       	rcall	.-1584   	; 0xfffffe48 <__eeprom_end+0xff7efe35>
+     476:	e7 dc       	rcall	.-1586   	; 0xfffffe46 <__eeprom_end+0xff7efe33>
      478:	29 83       	std	Y+1, r18	; 0x01
      47a:	3a 83       	std	Y+2, r19	; 0x02
      47c:	4b 83       	std	Y+3, r20	; 0x03
@@ -679,16 +679,16 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      508:	6f 2d       	mov	r22, r15
      50a:	8c e0       	ldi	r24, 0x0C	; 12
      50c:	90 e0       	ldi	r25, 0x00	; 0
-     50e:	eb dc       	rcall	.-1578   	; 0xfffffee6 <__eeprom_end+0xff7efed3>
+     50e:	ea dc       	rcall	.-1580   	; 0xfffffee4 <__eeprom_end+0xff7efed1>
      510:	f8 01       	movw	r30, r16
      512:	64 81       	ldd	r22, Z+4	; 0x04
      514:	8b e0       	ldi	r24, 0x0B	; 11
      516:	90 e0       	ldi	r25, 0x00	; 0
-     518:	e6 dc       	rcall	.-1588   	; 0xfffffee6 <__eeprom_end+0xff7efed3>
+     518:	e5 dc       	rcall	.-1590   	; 0xfffffee4 <__eeprom_end+0xff7efed1>
      51a:	6b 81       	ldd	r22, Y+3	; 0x03
      51c:	8a e0       	ldi	r24, 0x0A	; 10
      51e:	90 e0       	ldi	r25, 0x00	; 0
-     520:	e2 dc       	rcall	.-1596   	; 0xfffffee6 <__eeprom_end+0xff7efed3>
+     520:	e1 dc       	rcall	.-1598   	; 0xfffffee4 <__eeprom_end+0xff7efed1>
      522:	df 91       	pop	r29
      524:	cf 91       	pop	r28
      526:	1f 91       	pop	r17
@@ -807,7 +807,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      60a:	f7 84       	ldd	r15, Z+15	; 0x0f
      60c:	00 89       	ldd	r16, Z+16	; 0x10
      60e:	11 89       	ldd	r17, Z+17	; 0x11
-     610:	30 dc       	rcall	.-1952   	; 0xfffffe72 <__eeprom_end+0xff7efe5f>
+     610:	2f dc       	rcall	.-1954   	; 0xfffffe70 <__eeprom_end+0xff7efe5d>
      612:	27 38       	cpi	r18, 0x87	; 135
      614:	33 41       	sbci	r19, 0x13	; 19
      616:	41 05       	cpc	r20, r1
@@ -961,7 +961,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
      75c:	02 96       	adiw	r24, 0x02	; 2
      75e:	63 e0       	ldi	r22, 0x03	; 3
      760:	70 e0       	ldi	r23, 0x00	; 0
-     762:	53 db       	rcall	.-2394   	; 0xfffffe0a <__eeprom_end+0xff7efdf7>
+     762:	52 db       	rcall	.-2396   	; 0xfffffe08 <__eeprom_end+0xff7efdf5>
      764:	c3 e0       	ldi	r28, 0x03	; 3
      766:	c8 1b       	sub	r28, r24
      768:	c0 93 62 00 	sts	0x0062, r28	; 0x800062 <rank>
@@ -1494,10 +1494,10 @@ void ds1307_setdate(DateTime dateTime) {
      bb4:	7e 83       	std	Y+6, r23	; 0x06
 	i2c_start_wait(DS1307_ADDR | I2C_WRITE);
      bb6:	80 ed       	ldi	r24, 0xD0	; 208
-     bb8:	e7 d8       	rcall	.-3634   	; 0xfffffd88 <__eeprom_end+0xff7efd75>
+     bb8:	e6 d8       	rcall	.-3636   	; 0xfffffd86 <__eeprom_end+0xff7efd73>
 	i2c_write(0x00);
      bba:	80 e0       	ldi	r24, 0x00	; 0
-     bbc:	0b d9       	rcall	.-3562   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     bbc:	0a d9       	rcall	.-3564   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(ds1307_dec2bcd(dateTime.sec));
      bbe:	89 81       	ldd	r24, Y+1	; 0x01
      bc0:	1d ec       	ldi	r17, 0xCD	; 205
@@ -1512,7 +1512,7 @@ void ds1307_setdate(DateTime dateTime) {
      bd2:	92 0f       	add	r25, r18
      bd4:	99 0f       	add	r25, r25
      bd6:	89 0f       	add	r24, r25
-     bd8:	fd d8       	rcall	.-3590   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     bd8:	fc d8       	rcall	.-3592   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(ds1307_dec2bcd(dateTime.min));
      bda:	8a 81       	ldd	r24, Y+2	; 0x02
      bdc:	81 9f       	mul	r24, r17
@@ -1526,7 +1526,7 @@ void ds1307_setdate(DateTime dateTime) {
      bec:	92 0f       	add	r25, r18
      bee:	99 0f       	add	r25, r25
      bf0:	89 0f       	add	r24, r25
-     bf2:	f0 d8       	rcall	.-3616   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     bf2:	ef d8       	rcall	.-3618   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(ds1307_dec2bcd(dateTime.hour));
      bf4:	8b 81       	ldd	r24, Y+3	; 0x03
      bf6:	81 9f       	mul	r24, r17
@@ -1540,10 +1540,10 @@ void ds1307_setdate(DateTime dateTime) {
      c06:	92 0f       	add	r25, r18
      c08:	99 0f       	add	r25, r25
      c0a:	89 0f       	add	r24, r25
-     c0c:	e3 d8       	rcall	.-3642   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     c0c:	e2 d8       	rcall	.-3644   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(ds1307_dec2bcd(1));
      c0e:	81 e0       	ldi	r24, 0x01	; 1
-     c10:	e1 d8       	rcall	.-3646   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     c10:	e0 d8       	rcall	.-3648   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(ds1307_dec2bcd(dateTime.day));
      c12:	8c 81       	ldd	r24, Y+4	; 0x04
      c14:	81 9f       	mul	r24, r17
@@ -1557,7 +1557,7 @@ void ds1307_setdate(DateTime dateTime) {
      c24:	92 0f       	add	r25, r18
      c26:	99 0f       	add	r25, r25
      c28:	89 0f       	add	r24, r25
-     c2a:	d4 d8       	rcall	.-3672   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     c2a:	d3 d8       	rcall	.-3674   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(ds1307_dec2bcd(dateTime.month));
      c2c:	8d 81       	ldd	r24, Y+5	; 0x05
      c2e:	81 9f       	mul	r24, r17
@@ -1571,7 +1571,7 @@ void ds1307_setdate(DateTime dateTime) {
      c3e:	92 0f       	add	r25, r18
      c40:	99 0f       	add	r25, r25
      c42:	89 0f       	add	r24, r25
-     c44:	c7 d8       	rcall	.-3698   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     c44:	c6 d8       	rcall	.-3700   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(ds1307_dec2bcd(dateTime.year));
      c46:	8e 81       	ldd	r24, Y+6	; 0x06
      c48:	81 9f       	mul	r24, r17
@@ -1585,12 +1585,12 @@ void ds1307_setdate(DateTime dateTime) {
      c58:	19 0f       	add	r17, r25
      c5a:	11 0f       	add	r17, r17
      c5c:	81 0f       	add	r24, r17
-     c5e:	ba d8       	rcall	.-3724   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     c5e:	b9 d8       	rcall	.-3726   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_write(0x00);
      c60:	80 e0       	ldi	r24, 0x00	; 0
-     c62:	b8 d8       	rcall	.-3728   	; 0xfffffdd4 <__eeprom_end+0xff7efdc1>
+     c62:	b7 d8       	rcall	.-3730   	; 0xfffffdd2 <__eeprom_end+0xff7efdbf>
 	i2c_stop();
-     c64:	b1 d8       	rcall	.-3742   	; 0xfffffdc8 <__eeprom_end+0xff7efdb5>
+     c64:	b0 d8       	rcall	.-3744   	; 0xfffffdc6 <__eeprom_end+0xff7efdb3>
 }
      c66:	27 96       	adiw	r28, 0x07	; 7
      c68:	0f b6       	in	r0, 0x3f	; 63
@@ -1689,7 +1689,7 @@ void timeCorrection() {
      d02:	f1 84       	ldd	r15, Z+9	; 0x09
      d04:	02 85       	ldd	r16, Z+10	; 0x0a
      d06:	13 85       	ldd	r17, Z+11	; 0x0b
-     d08:	b4 d8       	rcall	.-3736   	; 0xfffffe72 <__eeprom_end+0xff7efe5f>
+     d08:	b3 d8       	rcall	.-3738   	; 0xfffffe70 <__eeprom_end+0xff7efe5d>
      d0a:	e1 e0       	ldi	r30, 0x01	; 1
      d0c:	ad 2e       	mov	r10, r29
      d0e:	b1 2c       	mov	r11, r1
@@ -1699,7 +1699,7 @@ void timeCorrection() {
      d16:	f1 2c       	mov	r15, r1
      d18:	00 e0       	ldi	r16, 0x00	; 0
      d1a:	10 e0       	ldi	r17, 0x00	; 0
-     d1c:	b3 d8       	rcall	.-3738   	; 0xfffffe84 <__eeprom_end+0xff7efe71>
+     d1c:	b2 d8       	rcall	.-3740   	; 0xfffffe82 <__eeprom_end+0xff7efe6f>
      d1e:	08 f0       	brcs	.+2      	; 0xd22 <_Z14timeCorrectionv+0xa8>
      d20:	3e c0       	rjmp	.+124    	; 0xd9e <_Z14timeCorrectionv+0x124>
      d22:	e0 e0       	ldi	r30, 0x00	; 0
@@ -1731,7 +1731,7 @@ void timeCorrection() {
      d4c:	f1 84       	ldd	r15, Z+9	; 0x09
      d4e:	02 85       	ldd	r16, Z+10	; 0x0a
      d50:	13 85       	ldd	r17, Z+11	; 0x0b
-     d52:	8f d8       	rcall	.-3810   	; 0xfffffe72 <__eeprom_end+0xff7efe5f>
+     d52:	8e d8       	rcall	.-3812   	; 0xfffffe70 <__eeprom_end+0xff7efe5d>
      d54:	a2 2e       	mov	r10, r18
      d56:	b3 2e       	mov	r11, r19
      d58:	c4 2e       	mov	r12, r20
@@ -1757,7 +1757,7 @@ void timeCorrection() {
      d7e:	7b 2f       	mov	r23, r27
      d80:	8a 2f       	mov	r24, r26
      d82:	93 2d       	mov	r25, r3
-     d84:	61 d8       	rcall	.-3902   	; 0xfffffe48 <__eeprom_end+0xff7efe35>
+     d84:	60 d8       	rcall	.-3904   	; 0xfffffe46 <__eeprom_end+0xff7efe33>
      d86:	e1 e0       	ldi	r30, 0x01	; 1
      d88:	ad 2e       	mov	r10, r29
      d8a:	b1 2c       	mov	r11, r1
@@ -1767,7 +1767,7 @@ void timeCorrection() {
      d92:	f1 2c       	mov	r15, r1
      d94:	00 e0       	ldi	r16, 0x00	; 0
      d96:	10 e0       	ldi	r17, 0x00	; 0
-     d98:	75 d8       	rcall	.-3862   	; 0xfffffe84 <__eeprom_end+0xff7efe71>
+     d98:	74 d8       	rcall	.-3864   	; 0xfffffe82 <__eeprom_end+0xff7efe6f>
      d9a:	08 f4       	brcc	.+2      	; 0xd9e <_Z14timeCorrectionv+0x124>
      d9c:	e0 e0       	ldi	r30, 0x00	; 0
 			isCanCorrect = true;
@@ -1808,7 +1808,7 @@ void timeCorrection() {
      dca:	9a 01       	movw	r18, r20
      dcc:	a9 e8       	ldi	r26, 0x89	; 137
      dce:	b8 e8       	ldi	r27, 0x88	; 136
-     dd0:	2f d8       	rcall	.-4002   	; 0xfffffe30 <__eeprom_end+0xff7efe1d>
+     dd0:	2e d8       	rcall	.-4004   	; 0xfffffe2e <__eeprom_end+0xff7efe1b>
      dd2:	96 95       	lsr	r25
      dd4:	87 95       	ror	r24
      dd6:	92 95       	swap	r25
@@ -1829,7 +1829,7 @@ void timeCorrection() {
      df4:	80 83       	st	Z, r24
 	dateTime.min = correctionStamp / 60;
      df6:	9a 01       	movw	r18, r20
-     df8:	1b d8       	rcall	.-4042   	; 0xfffffe30 <__eeprom_end+0xff7efe1d>
+     df8:	1a d8       	rcall	.-4044   	; 0xfffffe2e <__eeprom_end+0xff7efe1b>
      dfa:	96 95       	lsr	r25
      dfc:	87 95       	ror	r24
      dfe:	92 95       	swap	r25
@@ -1915,7 +1915,7 @@ void buttonShortPress() {
 				eeprom_update_byte(&eeprom_isHourBeepActive, hourBeep.isActive);
      e90:	80 e1       	ldi	r24, 0x10	; 16
      e92:	90 e0       	ldi	r25, 0x00	; 0
-     e94:	28 d8       	rcall	.-4016   	; 0xfffffee6 <__eeprom_end+0xff7efed3>
+     e94:	27 d8       	rcall	.-4018   	; 0xfffffee4 <__eeprom_end+0xff7efed1>
 				if (nightMode.isActive) {
      e96:	80 91 92 00 	lds	r24, 0x0092	; 0x800092 <nightMode>
      e9a:	88 23       	and	r24, r24
@@ -1954,7 +1954,7 @@ void buttonShortPress() {
 					eeprom_update_byte(&eeprom_bright, bright.level);					
      ed0:	82 e1       	ldi	r24, 0x12	; 18
      ed2:	90 e0       	ldi	r25, 0x00	; 0
-     ed4:	08 d8       	rcall	.-4080   	; 0xfffffee6 <__eeprom_end+0xff7efed3>
+     ed4:	07 d8       	rcall	.-4082   	; 0xfffffee4 <__eeprom_end+0xff7efed1>
      ed6:	7d c0       	rjmp	.+250    	; 0xfd2 <_Z16buttonShortPressv+0x182>
 				} else {
 					ledBlinking.isCanInit = true;
@@ -2254,7 +2254,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_isAlarmActive, alarm.isActive);
     10f6:	86 e0       	ldi	r24, 0x06	; 6
     10f8:	90 e0       	ldi	r25, 0x00	; 0
-    10fa:	f5 d6       	rcall	.+3562   	; 0x1ee6 <eeprom_update_byte>
+    10fa:	f4 d6       	rcall	.+3560   	; 0x1ee4 <eeprom_update_byte>
 			break;
     10fc:	75 c0       	rjmp	.+234    	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetAlarmMin:
@@ -2268,7 +2268,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_alarmMin, alarm.startMin);
     110a:	84 e0       	ldi	r24, 0x04	; 4
     110c:	90 e0       	ldi	r25, 0x00	; 0
-    110e:	eb d6       	rcall	.+3542   	; 0x1ee6 <eeprom_update_byte>
+    110e:	ea d6       	rcall	.+3540   	; 0x1ee4 <eeprom_update_byte>
 			break;
     1110:	6b c0       	rjmp	.+214    	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetAlarmHour:
@@ -2282,7 +2282,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_alarmHour, alarm.startHour);
     111e:	85 e0       	ldi	r24, 0x05	; 5
     1120:	90 e0       	ldi	r25, 0x00	; 0
-    1122:	e1 d6       	rcall	.+3522   	; 0x1ee6 <eeprom_update_byte>
+    1122:	e0 d6       	rcall	.+3520   	; 0x1ee4 <eeprom_update_byte>
 			break;
     1124:	61 c0       	rjmp	.+194    	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetDateShow:
@@ -2296,7 +2296,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_showDateIsActive, showDate.isActive);
     1136:	89 e0       	ldi	r24, 0x09	; 9
     1138:	90 e0       	ldi	r25, 0x00	; 0
-    113a:	d5 d6       	rcall	.+3498   	; 0x1ee6 <eeprom_update_byte>
+    113a:	d4 d6       	rcall	.+3496   	; 0x1ee4 <eeprom_update_byte>
 			break;
     113c:	55 c0       	rjmp	.+170    	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetDateShowStop:
@@ -2306,7 +2306,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_showDateStop, showDate.stop);
     1146:	87 e0       	ldi	r24, 0x07	; 7
     1148:	90 e0       	ldi	r25, 0x00	; 0
-    114a:	cd d6       	rcall	.+3482   	; 0x1ee6 <eeprom_update_byte>
+    114a:	cc d6       	rcall	.+3480   	; 0x1ee4 <eeprom_update_byte>
 			break;
     114c:	4d c0       	rjmp	.+154    	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetDateShowStart:
@@ -2316,7 +2316,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_showDateStart, showDate.start);
     1156:	88 e0       	ldi	r24, 0x08	; 8
     1158:	90 e0       	ldi	r25, 0x00	; 0
-    115a:	c5 d6       	rcall	.+3466   	; 0x1ee6 <eeprom_update_byte>
+    115a:	c4 d6       	rcall	.+3464   	; 0x1ee4 <eeprom_update_byte>
 			break;
     115c:	45 c0       	rjmp	.+138    	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetCorrectionTurn:
@@ -2330,7 +2330,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_correctionIsForward, correction.isForward);
     116e:	8f e0       	ldi	r24, 0x0F	; 15
     1170:	90 e0       	ldi	r25, 0x00	; 0
-    1172:	b9 d6       	rcall	.+3442   	; 0x1ee6 <eeprom_update_byte>
+    1172:	b8 d6       	rcall	.+3440   	; 0x1ee4 <eeprom_update_byte>
 			resetCorrectionParams();
     1174:	b1 d9       	rcall	.-3230   	; 0x4d8 <_Z21resetCorrectionParamsv>
 			break;
@@ -2342,7 +2342,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_correctionValue, correction.value);
     1180:	8e e0       	ldi	r24, 0x0E	; 14
     1182:	90 e0       	ldi	r25, 0x00	; 0
-    1184:	b0 d6       	rcall	.+3424   	; 0x1ee6 <eeprom_update_byte>
+    1184:	af d6       	rcall	.+3422   	; 0x1ee4 <eeprom_update_byte>
 			resetCorrectionParams();
     1186:	a8 d9       	rcall	.-3248   	; 0x4d8 <_Z21resetCorrectionParamsv>
 			break;
@@ -2354,7 +2354,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_correctionInterval, correction.interval);
     1192:	8d e0       	ldi	r24, 0x0D	; 13
     1194:	90 e0       	ldi	r25, 0x00	; 0
-    1196:	a7 d6       	rcall	.+3406   	; 0x1ee6 <eeprom_update_byte>
+    1196:	a6 d6       	rcall	.+3404   	; 0x1ee4 <eeprom_update_byte>
 			resetCorrectionParams();
     1198:	9f d9       	rcall	.-3266   	; 0x4d8 <_Z21resetCorrectionParamsv>
 			break;
@@ -2366,7 +2366,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_nightMode, nightMode.modeType);
     11a4:	81 e0       	ldi	r24, 0x01	; 1
     11a6:	90 e0       	ldi	r25, 0x00	; 0
-    11a8:	9e d6       	rcall	.+3388   	; 0x1ee6 <eeprom_update_byte>
+    11a8:	9d d6       	rcall	.+3386   	; 0x1ee4 <eeprom_update_byte>
 			break;
     11aa:	1e c0       	rjmp	.+60     	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetHourNightModeStop:
@@ -2376,7 +2376,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_hourNightModeStop, nightMode.hourStop);
     11b4:	82 e0       	ldi	r24, 0x02	; 2
     11b6:	90 e0       	ldi	r25, 0x00	; 0
-    11b8:	96 d6       	rcall	.+3372   	; 0x1ee6 <eeprom_update_byte>
+    11b8:	95 d6       	rcall	.+3370   	; 0x1ee4 <eeprom_update_byte>
 			break;
     11ba:	16 c0       	rjmp	.+44     	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetHourNightModeStart:
@@ -2386,7 +2386,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_hourNightModeStart, nightMode.hourStart);
     11c4:	83 e0       	ldi	r24, 0x03	; 3
     11c6:	90 e0       	ldi	r25, 0x00	; 0
-    11c8:	8e d6       	rcall	.+3356   	; 0x1ee6 <eeprom_update_byte>
+    11c8:	8d d6       	rcall	.+3354   	; 0x1ee4 <eeprom_update_byte>
 			break;
     11ca:	0e c0       	rjmp	.+28     	; 0x11e8 <_Z20firstButtonLongPressv+0x212>
 		case mw_SetThrashhold:
@@ -2405,7 +2405,7 @@ void firstButtonLongPress() {
 			eeprom_update_byte(&eeprom_nightThreshold, nightMode.thresholdInit);
     11e2:	80 e0       	ldi	r24, 0x00	; 0
     11e4:	90 e0       	ldi	r25, 0x00	; 0
-    11e6:	7f d6       	rcall	.+3326   	; 0x1ee6 <eeprom_update_byte>
+    11e6:	7e d6       	rcall	.+3324   	; 0x1ee4 <eeprom_update_byte>
 			break;
 	}
 	
@@ -2531,7 +2531,7 @@ void buttonController() {
     1270:	83 85       	ldd	r24, Z+11	; 0x0b
     1272:	94 85       	ldd	r25, Z+12	; 0x0c
     1274:	a0 e0       	ldi	r26, 0x00	; 0
-    1276:	0f d6       	rcall	.+3102   	; 0x1e96 <__cmpdi2_s8>
+    1276:	0e d6       	rcall	.+3100   	; 0x1e94 <__cmpdi2_s8>
     1278:	69 f4       	brne	.+26     	; 0x1294 <_Z16buttonControllerv+0x70>
 			button.bounceTime = millis();
     127a:	63 d7       	rcall	.+3782   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
@@ -2560,9 +2560,9 @@ void buttonController() {
     12a4:	f2 84       	ldd	r15, Z+10	; 0x0a
     12a6:	03 85       	ldd	r16, Z+11	; 0x0b
     12a8:	14 85       	ldd	r17, Z+12	; 0x0c
-    12aa:	e3 d5       	rcall	.+3014   	; 0x1e72 <__subdi3>
+    12aa:	e2 d5       	rcall	.+3012   	; 0x1e70 <__subdi3>
     12ac:	ac e3       	ldi	r26, 0x3C	; 60
-    12ae:	f3 d5       	rcall	.+3046   	; 0x1e96 <__cmpdi2_s8>
+    12ae:	f2 d5       	rcall	.+3044   	; 0x1e94 <__cmpdi2_s8>
     12b0:	09 f0       	breq	.+2      	; 0x12b4 <_Z16buttonControllerv+0x90>
     12b2:	08 f4       	brcc	.+2      	; 0x12b6 <_Z16buttonControllerv+0x92>
     12b4:	86 c0       	rjmp	.+268    	; 0x13c2 <_Z16buttonControllerv+0x19e>
@@ -2592,7 +2592,7 @@ void buttonController() {
     12de:	83 89       	ldd	r24, Z+19	; 0x13
     12e0:	94 89       	ldd	r25, Z+20	; 0x14
     12e2:	a0 e0       	ldi	r26, 0x00	; 0
-    12e4:	d8 d5       	rcall	.+2992   	; 0x1e96 <__cmpdi2_s8>
+    12e4:	d7 d5       	rcall	.+2990   	; 0x1e94 <__cmpdi2_s8>
     12e6:	61 f4       	brne	.+24     	; 0x1300 <_Z16buttonControllerv+0xdc>
 				button.longPressTime = millis();
     12e8:	2c d7       	rcall	.+3672   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
@@ -2619,7 +2619,7 @@ void buttonController() {
     1310:	f2 88       	ldd	r15, Z+18	; 0x12
     1312:	03 89       	ldd	r16, Z+19	; 0x13
     1314:	14 89       	ldd	r17, Z+20	; 0x14
-    1316:	ad d5       	rcall	.+2906   	; 0x1e72 <__subdi3>
+    1316:	ac d5       	rcall	.+2904   	; 0x1e70 <__subdi3>
     1318:	24 31       	cpi	r18, 0x14	; 20
     131a:	35 40       	sbci	r19, 0x05	; 5
     131c:	41 05       	cpc	r20, r1
@@ -2674,7 +2674,7 @@ void buttonController() {
     1372:	60 91 65 00 	lds	r22, 0x0065	; 0x800065 <isLedActive>
     1376:	81 e1       	ldi	r24, 0x11	; 17
     1378:	90 e0       	ldi	r25, 0x00	; 0
-    137a:	b5 d5       	rcall	.+2922   	; 0x1ee6 <eeprom_update_byte>
+    137a:	b4 d5       	rcall	.+2920   	; 0x1ee4 <eeprom_update_byte>
 						}
 						break;
 				}
@@ -2726,7 +2726,7 @@ void buttonController() {
     13b8:	83 85       	ldd	r24, Z+11	; 0x0b
     13ba:	94 85       	ldd	r25, Z+12	; 0x0c
     13bc:	a0 e0       	ldi	r26, 0x00	; 0
-    13be:	6b d5       	rcall	.+2774   	; 0x1e96 <__cmpdi2_s8>
+    13be:	6a d5       	rcall	.+2772   	; 0x1e94 <__cmpdi2_s8>
     13c0:	49 f7       	brne	.-46     	; 0x1394 <_Z16buttonControllerv+0x170>
 			returnTime = 10;
 			buttonShortPress();
@@ -2770,18 +2770,18 @@ DateTime ds1307_getdate() {
     13f4:	cd bf       	out	0x3d, r28	; 61
 	i2c_start_wait(DS1307_ADDR | I2C_WRITE);
     13f6:	80 ed       	ldi	r24, 0xD0	; 208
-    13f8:	c7 d4       	rcall	.+2446   	; 0x1d88 <_Z14i2c_start_waith>
+    13f8:	c6 d4       	rcall	.+2444   	; 0x1d86 <_Z14i2c_start_waith>
 	i2c_write(0x00);
     13fa:	80 e0       	ldi	r24, 0x00	; 0
-    13fc:	eb d4       	rcall	.+2518   	; 0x1dd4 <_Z9i2c_writeh>
+    13fc:	ea d4       	rcall	.+2516   	; 0x1dd2 <_Z9i2c_writeh>
 	i2c_stop();
-    13fe:	e4 d4       	rcall	.+2504   	; 0x1dc8 <_Z8i2c_stopv>
+    13fe:	e3 d4       	rcall	.+2502   	; 0x1dc6 <_Z8i2c_stopv>
 	DateTime dateTime;
 	i2c_rep_start(DS1307_ADDR | I2C_READ);
     1400:	81 ed       	ldi	r24, 0xD1	; 209
-    1402:	e0 d4       	rcall	.+2496   	; 0x1dc4 <_Z13i2c_rep_starth>
+    1402:	df d4       	rcall	.+2494   	; 0x1dc2 <_Z13i2c_rep_starth>
 	dateTime.sec = ds1307_bcd2dec(i2c_readAck() & 0x7F);
-    1404:	f4 d4       	rcall	.+2536   	; 0x1dee <_Z11i2c_readAckv>
+    1404:	f3 d4       	rcall	.+2534   	; 0x1dec <_Z11i2c_readAckv>
     1406:	8f 77       	andi	r24, 0x7F	; 127
 uint8_t ds1307_dec2bcd(uint8_t val) {
 	return val + 6 * (val / 10);
@@ -2811,7 +2811,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
 	i2c_rep_start(DS1307_ADDR | I2C_READ);
 	dateTime.sec = ds1307_bcd2dec(i2c_readAck() & 0x7F);
 	dateTime.min = ds1307_bcd2dec(i2c_readAck());
-    1428:	e2 d4       	rcall	.+2500   	; 0x1dee <_Z11i2c_readAckv>
+    1428:	e1 d4       	rcall	.+2498   	; 0x1dec <_Z11i2c_readAckv>
 uint8_t ds1307_dec2bcd(uint8_t val) {
 	return val + 6 * (val / 10);
 }
@@ -2840,7 +2840,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
 	dateTime.sec = ds1307_bcd2dec(i2c_readAck() & 0x7F);
 	dateTime.min = ds1307_bcd2dec(i2c_readAck());
 	dateTime.hour = ds1307_bcd2dec(i2c_readAck());
-    144a:	d1 d4       	rcall	.+2466   	; 0x1dee <_Z11i2c_readAckv>
+    144a:	d0 d4       	rcall	.+2464   	; 0x1dec <_Z11i2c_readAckv>
 uint8_t ds1307_dec2bcd(uint8_t val) {
 	return val + 6 * (val / 10);
 }
@@ -2869,9 +2869,9 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
 	dateTime.min = ds1307_bcd2dec(i2c_readAck());
 	dateTime.hour = ds1307_bcd2dec(i2c_readAck());
 	i2c_readAck();
-    146c:	c0 d4       	rcall	.+2432   	; 0x1dee <_Z11i2c_readAckv>
+    146c:	bf d4       	rcall	.+2430   	; 0x1dec <_Z11i2c_readAckv>
 	dateTime.day = ds1307_bcd2dec(i2c_readAck());
-    146e:	bf d4       	rcall	.+2430   	; 0x1dee <_Z11i2c_readAckv>
+    146e:	be d4       	rcall	.+2428   	; 0x1dec <_Z11i2c_readAckv>
 uint8_t ds1307_dec2bcd(uint8_t val) {
 	return val + 6 * (val / 10);
 }
@@ -2900,7 +2900,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
 	i2c_readAck();
 	dateTime.day = ds1307_bcd2dec(i2c_readAck());
 	dateTime.month = ds1307_bcd2dec(i2c_readAck());
-    1490:	ae d4       	rcall	.+2396   	; 0x1dee <_Z11i2c_readAckv>
+    1490:	ad d4       	rcall	.+2394   	; 0x1dec <_Z11i2c_readAckv>
 uint8_t ds1307_dec2bcd(uint8_t val) {
 	return val + 6 * (val / 10);
 }
@@ -2929,7 +2929,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
 	dateTime.day = ds1307_bcd2dec(i2c_readAck());
 	dateTime.month = ds1307_bcd2dec(i2c_readAck());
 	dateTime.year = ds1307_bcd2dec(i2c_readNak());
-    14b2:	a4 d4       	rcall	.+2376   	; 0x1dfc <_Z11i2c_readNakv>
+    14b2:	a3 d4       	rcall	.+2374   	; 0x1dfa <_Z11i2c_readNakv>
 uint8_t ds1307_dec2bcd(uint8_t val) {
 	return val + 6 * (val / 10);
 }
@@ -2958,7 +2958,7 @@ uint8_t ds1307_bcd2dec(uint8_t val) {
 	dateTime.month = ds1307_bcd2dec(i2c_readAck());
 	dateTime.year = ds1307_bcd2dec(i2c_readNak());
 	i2c_stop();
-    14d4:	79 d4       	rcall	.+2290   	; 0x1dc8 <_Z8i2c_stopv>
+    14d4:	78 d4       	rcall	.+2288   	; 0x1dc6 <_Z8i2c_stopv>
 	return dateTime;
 }
     14d6:	2f 2d       	mov	r18, r15
@@ -3012,7 +3012,7 @@ void init() {
     1522:	86 b9       	out	0x06, r24	; 6
 	
 	i2c_init();
-    1524:	0f d4       	rcall	.+2078   	; 0x1d44 <_Z8i2c_initv>
+    1524:	0e d4       	rcall	.+2076   	; 0x1d42 <_Z8i2c_initv>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -3039,7 +3039,7 @@ void init() {
 	bright.level = eeprom_read_byte(&eeprom_bright);
     1550:	82 e1       	ldi	r24, 0x12	; 18
     1552:	90 e0       	ldi	r25, 0x00	; 0
-    1554:	c0 d4       	rcall	.+2432   	; 0x1ed6 <eeprom_read_byte>
+    1554:	bf d4       	rcall	.+2430   	; 0x1ed4 <eeprom_read_byte>
     1556:	e8 ec       	ldi	r30, 0xC8	; 200
     1558:	f0 e0       	ldi	r31, 0x00	; 0
     155a:	80 83       	st	Z, r24
@@ -3049,7 +3049,7 @@ void init() {
 	hourBeep.isActive = eeprom_read_byte(&eeprom_isHourBeepActive);
     155e:	80 e1       	ldi	r24, 0x10	; 16
     1560:	90 e0       	ldi	r25, 0x00	; 0
-    1562:	b9 d4       	rcall	.+2418   	; 0x1ed6 <eeprom_read_byte>
+    1562:	b8 d4       	rcall	.+2416   	; 0x1ed4 <eeprom_read_byte>
     1564:	91 e0       	ldi	r25, 0x01	; 1
     1566:	81 11       	cpse	r24, r1
     1568:	01 c0       	rjmp	.+2      	; 0x156c <_Z4initv+0x68>
@@ -3088,7 +3088,7 @@ void init() {
 	alarm.isActive = eeprom_read_byte(&eeprom_isAlarmActive);
     159a:	86 e0       	ldi	r24, 0x06	; 6
     159c:	90 e0       	ldi	r25, 0x00	; 0
-    159e:	9b d4       	rcall	.+2358   	; 0x1ed6 <eeprom_read_byte>
+    159e:	9a d4       	rcall	.+2356   	; 0x1ed4 <eeprom_read_byte>
     15a0:	91 e0       	ldi	r25, 0x01	; 1
     15a2:	81 11       	cpse	r24, r1
     15a4:	01 c0       	rjmp	.+2      	; 0x15a8 <_Z4initv+0xa4>
@@ -3097,14 +3097,14 @@ void init() {
 	alarm.startHour = eeprom_read_byte(&eeprom_alarmHour);
     15ac:	85 e0       	ldi	r24, 0x05	; 5
     15ae:	90 e0       	ldi	r25, 0x00	; 0
-    15b0:	92 d4       	rcall	.+2340   	; 0x1ed6 <eeprom_read_byte>
+    15b0:	91 d4       	rcall	.+2338   	; 0x1ed4 <eeprom_read_byte>
     15b2:	cf ed       	ldi	r28, 0xDF	; 223
     15b4:	d0 e0       	ldi	r29, 0x00	; 0
     15b6:	8b 83       	std	Y+3, r24	; 0x03
 	alarm.startMin = eeprom_read_byte(&eeprom_alarmMin);
     15b8:	84 e0       	ldi	r24, 0x04	; 4
     15ba:	90 e0       	ldi	r25, 0x00	; 0
-    15bc:	8c d4       	rcall	.+2328   	; 0x1ed6 <eeprom_read_byte>
+    15bc:	8b d4       	rcall	.+2326   	; 0x1ed4 <eeprom_read_byte>
     15be:	8c 83       	std	Y+4, r24	; 0x04
 	alarm.lastDay = 0;
     15c0:	1a 82       	std	Y+2, r1	; 0x02
@@ -3156,7 +3156,7 @@ void init() {
 	isLedActive = eeprom_read_byte(&eeprom_ledState);
     1600:	81 e1       	ldi	r24, 0x11	; 17
     1602:	90 e0       	ldi	r25, 0x00	; 0
-    1604:	68 d4       	rcall	.+2256   	; 0x1ed6 <eeprom_read_byte>
+    1604:	67 d4       	rcall	.+2254   	; 0x1ed4 <eeprom_read_byte>
     1606:	18 2f       	mov	r17, r24
     1608:	81 e0       	ldi	r24, 0x01	; 1
     160a:	11 11       	cpse	r17, r1
@@ -3167,7 +3167,7 @@ void init() {
 	correction.isForward = eeprom_read_byte(&eeprom_correctionIsForward);
     1614:	8f e0       	ldi	r24, 0x0F	; 15
     1616:	90 e0       	ldi	r25, 0x00	; 0
-    1618:	5e d4       	rcall	.+2236   	; 0x1ed6 <eeprom_read_byte>
+    1618:	5d d4       	rcall	.+2234   	; 0x1ed4 <eeprom_read_byte>
     161a:	91 e0       	ldi	r25, 0x01	; 1
     161c:	81 11       	cpse	r24, r1
     161e:	01 c0       	rjmp	.+2      	; 0x1622 <_Z4initv+0x11e>
@@ -3176,29 +3176,29 @@ void init() {
 	correction.value = eeprom_read_byte(&eeprom_correctionValue);
     1626:	8e e0       	ldi	r24, 0x0E	; 14
     1628:	90 e0       	ldi	r25, 0x00	; 0
-    162a:	55 d4       	rcall	.+2218   	; 0x1ed6 <eeprom_read_byte>
+    162a:	54 d4       	rcall	.+2216   	; 0x1ed4 <eeprom_read_byte>
     162c:	c6 e8       	ldi	r28, 0x86	; 134
     162e:	d0 e0       	ldi	r29, 0x00	; 0
     1630:	89 83       	std	Y+1, r24	; 0x01
 	correction.interval = eeprom_read_byte(&eeprom_correctionInterval);
     1632:	8d e0       	ldi	r24, 0x0D	; 13
     1634:	90 e0       	ldi	r25, 0x00	; 0
-    1636:	4f d4       	rcall	.+2206   	; 0x1ed6 <eeprom_read_byte>
+    1636:	4e d4       	rcall	.+2204   	; 0x1ed4 <eeprom_read_byte>
     1638:	8a 83       	std	Y+2, r24	; 0x02
 	correction.year = eeprom_read_byte(&eeprom_correctionLastYear);
     163a:	8a e0       	ldi	r24, 0x0A	; 10
     163c:	90 e0       	ldi	r25, 0x00	; 0
-    163e:	4b d4       	rcall	.+2198   	; 0x1ed6 <eeprom_read_byte>
+    163e:	4a d4       	rcall	.+2196   	; 0x1ed4 <eeprom_read_byte>
     1640:	08 2f       	mov	r16, r24
     1642:	8b 83       	std	Y+3, r24	; 0x03
 	correction.stamp = calcTimeStamp(eeprom_read_byte(&eeprom_correctionLastDay), eeprom_read_byte(&eeprom_correctionLastMonth),correction.year);
     1644:	8b e0       	ldi	r24, 0x0B	; 11
     1646:	90 e0       	ldi	r25, 0x00	; 0
-    1648:	46 d4       	rcall	.+2188   	; 0x1ed6 <eeprom_read_byte>
+    1648:	45 d4       	rcall	.+2186   	; 0x1ed4 <eeprom_read_byte>
     164a:	f8 2e       	mov	r15, r24
     164c:	8c e0       	ldi	r24, 0x0C	; 12
     164e:	90 e0       	ldi	r25, 0x00	; 0
-    1650:	42 d4       	rcall	.+2180   	; 0x1ed6 <eeprom_read_byte>
+    1650:	41 d4       	rcall	.+2178   	; 0x1ed4 <eeprom_read_byte>
     1652:	40 2f       	mov	r20, r16
     1654:	6f 2d       	mov	r22, r15
     1656:	4c d6       	rcall	.+3224   	; 0x22f0 <__TEXT_REGION_LENGTH__+0x2f0>
@@ -3214,26 +3214,26 @@ void init() {
 	nightMode.hourStart = eeprom_read_byte(&eeprom_hourNightModeStart);
     1668:	83 e0       	ldi	r24, 0x03	; 3
     166a:	90 e0       	ldi	r25, 0x00	; 0
-    166c:	34 d4       	rcall	.+2152   	; 0x1ed6 <eeprom_read_byte>
+    166c:	33 d4       	rcall	.+2150   	; 0x1ed4 <eeprom_read_byte>
     166e:	c2 e9       	ldi	r28, 0x92	; 146
     1670:	d0 e0       	ldi	r29, 0x00	; 0
     1672:	8e 83       	std	Y+6, r24	; 0x06
 	nightMode.hourStop = eeprom_read_byte(&eeprom_hourNightModeStop);
     1674:	82 e0       	ldi	r24, 0x02	; 2
     1676:	90 e0       	ldi	r25, 0x00	; 0
-    1678:	2e d4       	rcall	.+2140   	; 0x1ed6 <eeprom_read_byte>
+    1678:	2d d4       	rcall	.+2138   	; 0x1ed4 <eeprom_read_byte>
     167a:	8f 83       	std	Y+7, r24	; 0x07
 	nightMode.modeType = eeprom_read_byte(&eeprom_nightMode);
     167c:	81 e0       	ldi	r24, 0x01	; 1
     167e:	90 e0       	ldi	r25, 0x00	; 0
-    1680:	2a d4       	rcall	.+2132   	; 0x1ed6 <eeprom_read_byte>
+    1680:	29 d4       	rcall	.+2130   	; 0x1ed4 <eeprom_read_byte>
     1682:	8a 83       	std	Y+2, r24	; 0x02
 	nightMode.isActive = false;
     1684:	18 82       	st	Y, r1
 	nightMode.thresholdInit = eeprom_read_byte(&eeprom_nightThreshold);
     1686:	80 e0       	ldi	r24, 0x00	; 0
     1688:	90 e0       	ldi	r25, 0x00	; 0
-    168a:	25 d4       	rcall	.+2122   	; 0x1ed6 <eeprom_read_byte>
+    168a:	24 d4       	rcall	.+2120   	; 0x1ed4 <eeprom_read_byte>
     168c:	8d 83       	std	Y+5, r24	; 0x05
 	nightMode.threshold =  20 * nightMode.thresholdInit;
     168e:	24 e1       	ldi	r18, 0x14	; 20
@@ -3258,19 +3258,19 @@ void init() {
 	showDate.start = eeprom_read_byte(&eeprom_showDateStart);
     16ae:	88 e0       	ldi	r24, 0x08	; 8
     16b0:	90 e0       	ldi	r25, 0x00	; 0
-    16b2:	11 d4       	rcall	.+2082   	; 0x1ed6 <eeprom_read_byte>
+    16b2:	10 d4       	rcall	.+2080   	; 0x1ed4 <eeprom_read_byte>
     16b4:	cd e0       	ldi	r28, 0x0D	; 13
     16b6:	d1 e0       	ldi	r29, 0x01	; 1
     16b8:	88 83       	st	Y, r24
 	showDate.stop = eeprom_read_byte(&eeprom_showDateStop);
     16ba:	87 e0       	ldi	r24, 0x07	; 7
     16bc:	90 e0       	ldi	r25, 0x00	; 0
-    16be:	0b d4       	rcall	.+2070   	; 0x1ed6 <eeprom_read_byte>
+    16be:	0a d4       	rcall	.+2068   	; 0x1ed4 <eeprom_read_byte>
     16c0:	89 83       	std	Y+1, r24	; 0x01
 	showDate.isActive = eeprom_read_byte(&eeprom_showDateIsActive);
     16c2:	89 e0       	ldi	r24, 0x09	; 9
     16c4:	90 e0       	ldi	r25, 0x00	; 0
-    16c6:	07 d4       	rcall	.+2062   	; 0x1ed6 <eeprom_read_byte>
+    16c6:	06 d4       	rcall	.+2060   	; 0x1ed4 <eeprom_read_byte>
     16c8:	91 e0       	ldi	r25, 0x01	; 1
     16ca:	81 11       	cpse	r24, r1
     16cc:	01 c0       	rjmp	.+2      	; 0x16d0 <_Z4initv+0x1cc>
@@ -3422,7 +3422,7 @@ void beepController(Beeper* beeper) {
     17aa:	f8 88       	ldd	r15, Y+16	; 0x10
     17ac:	09 89       	ldd	r16, Y+17	; 0x11
     17ae:	1a 89       	ldd	r17, Y+18	; 0x12
-    17b0:	60 d3       	rcall	.+1728   	; 0x1e72 <__subdi3>
+    17b0:	5f d3       	rcall	.+1726   	; 0x1e70 <__subdi3>
     17b2:	2d 80       	ldd	r2, Y+5	; 0x05
     17b4:	3e 80       	ldd	r3, Y+6	; 0x06
     17b6:	a2 2c       	mov	r10, r2
@@ -3433,7 +3433,7 @@ void beepController(Beeper* beeper) {
     17c0:	f1 2c       	mov	r15, r1
     17c2:	00 e0       	ldi	r16, 0x00	; 0
     17c4:	10 e0       	ldi	r17, 0x00	; 0
-    17c6:	5e d3       	rcall	.+1724   	; 0x1e84 <__cmpdi2>
+    17c6:	5d d3       	rcall	.+1722   	; 0x1e82 <__cmpdi2>
     17c8:	08 f4       	brcc	.+2      	; 0x17cc <_Z14beepControllerP6Beeper+0x90>
     17ca:	51 c0       	rjmp	.+162    	; 0x186e <_Z14beepControllerP6Beeper+0x132>
 				switchPort(PORTD, beepPin, 0);
@@ -3467,7 +3467,7 @@ void beepController(Beeper* beeper) {
     17f6:	f8 88       	ldd	r15, Y+16	; 0x10
     17f8:	09 89       	ldd	r16, Y+17	; 0x11
     17fa:	1a 89       	ldd	r17, Y+18	; 0x12
-    17fc:	3a d3       	rcall	.+1652   	; 0x1e72 <__subdi3>
+    17fc:	39 d3       	rcall	.+1650   	; 0x1e70 <__subdi3>
     17fe:	2f 80       	ldd	r2, Y+7	; 0x07
     1800:	38 84       	ldd	r3, Y+8	; 0x08
     1802:	a2 2c       	mov	r10, r2
@@ -3478,7 +3478,7 @@ void beepController(Beeper* beeper) {
     180c:	f1 2c       	mov	r15, r1
     180e:	00 e0       	ldi	r16, 0x00	; 0
     1810:	10 e0       	ldi	r17, 0x00	; 0
-    1812:	38 d3       	rcall	.+1648   	; 0x1e84 <__cmpdi2>
+    1812:	37 d3       	rcall	.+1646   	; 0x1e82 <__cmpdi2>
     1814:	60 f1       	brcs	.+88     	; 0x186e <_Z14beepControllerP6Beeper+0x132>
 					switchPort(PORTD, beepPin, 1);
     1816:	95 9a       	sbi	0x12, 5	; 18
@@ -3515,7 +3515,7 @@ void beepController(Beeper* beeper) {
     184a:	f8 88       	ldd	r15, Y+16	; 0x10
     184c:	09 89       	ldd	r16, Y+17	; 0x11
     184e:	1a 89       	ldd	r17, Y+18	; 0x12
-    1850:	10 d3       	rcall	.+1568   	; 0x1e72 <__subdi3>
+    1850:	0f d3       	rcall	.+1566   	; 0x1e70 <__subdi3>
     1852:	29 84       	ldd	r2, Y+9	; 0x09
     1854:	3a 84       	ldd	r3, Y+10	; 0x0a
     1856:	a2 2c       	mov	r10, r2
@@ -3526,7 +3526,7 @@ void beepController(Beeper* beeper) {
     1860:	f1 2c       	mov	r15, r1
     1862:	00 e0       	ldi	r16, 0x00	; 0
     1864:	10 e0       	ldi	r17, 0x00	; 0
-    1866:	0e d3       	rcall	.+1564   	; 0x1e84 <__cmpdi2>
+    1866:	0d d3       	rcall	.+1562   	; 0x1e82 <__cmpdi2>
     1868:	10 f0       	brcs	.+4      	; 0x186e <_Z14beepControllerP6Beeper+0x132>
 				beeper->isCanInit = true;
     186a:	81 e0       	ldi	r24, 0x01	; 1
@@ -3669,7 +3669,7 @@ void showDissallowedTask() {
     1950:	f4 84       	ldd	r15, Z+12	; 0x0c
     1952:	05 85       	ldd	r16, Z+13	; 0x0d
     1954:	16 85       	ldd	r17, Z+14	; 0x0e
-    1956:	8d d2       	rcall	.+1306   	; 0x1e72 <__subdi3>
+    1956:	8c d2       	rcall	.+1304   	; 0x1e70 <__subdi3>
     1958:	25 80       	ldd	r2, Z+5	; 0x05
     195a:	36 80       	ldd	r3, Z+6	; 0x06
     195c:	a2 2c       	mov	r10, r2
@@ -3680,7 +3680,7 @@ void showDissallowedTask() {
     1966:	f1 2c       	mov	r15, r1
     1968:	00 e0       	ldi	r16, 0x00	; 0
     196a:	10 e0       	ldi	r17, 0x00	; 0
-    196c:	8b d2       	rcall	.+1302   	; 0x1e84 <__cmpdi2>
+    196c:	8a d2       	rcall	.+1300   	; 0x1e82 <__cmpdi2>
     196e:	70 f1       	brcs	.+92     	; 0x19cc <_Z19showDissallowedTaskv+0x138>
 					switchPort(PORTB,ledPin, true);
     1970:	c2 9a       	sbi	0x18, 2	; 24
@@ -3714,7 +3714,7 @@ void showDissallowedTask() {
     199a:	f4 84       	ldd	r15, Z+12	; 0x0c
     199c:	05 85       	ldd	r16, Z+13	; 0x0d
     199e:	16 85       	ldd	r17, Z+14	; 0x0e
-    19a0:	68 d2       	rcall	.+1232   	; 0x1e72 <__subdi3>
+    19a0:	67 d2       	rcall	.+1230   	; 0x1e70 <__subdi3>
     19a2:	23 80       	ldd	r2, Z+3	; 0x03
     19a4:	34 80       	ldd	r3, Z+4	; 0x04
     19a6:	a2 2c       	mov	r10, r2
@@ -3725,7 +3725,7 @@ void showDissallowedTask() {
     19b0:	f1 2c       	mov	r15, r1
     19b2:	00 e0       	ldi	r16, 0x00	; 0
     19b4:	10 e0       	ldi	r17, 0x00	; 0
-    19b6:	66 d2       	rcall	.+1228   	; 0x1e84 <__cmpdi2>
+    19b6:	65 d2       	rcall	.+1226   	; 0x1e82 <__cmpdi2>
     19b8:	48 f0       	brcs	.+18     	; 0x19cc <_Z19showDissallowedTaskv+0x138>
     19ba:	b2 cf       	rjmp	.-156    	; 0x1920 <_Z19showDissallowedTaskv+0x8c>
 				switchPort(PORTB,ledPin, false);
@@ -3809,29 +3809,29 @@ int main(void) {
     1a1a:	f0 e0       	ldi	r31, 0x00	; 0
     1a1c:	7f 2e       	mov	r7, r31
     1a1e:	f0 2d       	mov	r31, r0
-						alarm.beeper.canBeep = false;
-						alarm.beeper.isCanInit = false;
-					}
-				}
-			}
-			if (hourBeep.isActive) {
-    1a20:	0f 2e       	mov	r0, r31
-    1a22:	f7 ef       	ldi	r31, 0xF7	; 247
-    1a24:	2f 2e       	mov	r2, r31
-    1a26:	f0 e0       	ldi	r31, 0x00	; 0
-    1a28:	3f 2e       	mov	r3, r31
-    1a2a:	f0 2d       	mov	r31, r0
 			}
 			if (etching.isWorking) {
 				if (etching.value > 99) {
 					etching.isWorking = false;
 				} else { 
 					if (millis() - etching.switchTime >= etching.duration) {
+    1a20:	0f 2e       	mov	r0, r31
+    1a22:	f5 e7       	ldi	r31, 0x75	; 117
+    1a24:	4f 2e       	mov	r4, r31
+    1a26:	f0 e0       	ldi	r31, 0x00	; 0
+    1a28:	5f 2e       	mov	r5, r31
+    1a2a:	f0 2d       	mov	r31, r0
+						alarm.beeper.canBeep = false;
+						alarm.beeper.isCanInit = false;
+					}
+				}
+			}
+			if (hourBeep.isActive && !nightMode.isActive) {
     1a2c:	0f 2e       	mov	r0, r31
-    1a2e:	f5 e7       	ldi	r31, 0x75	; 117
-    1a30:	4f 2e       	mov	r4, r31
+    1a2e:	f2 e9       	ldi	r31, 0x92	; 146
+    1a30:	2f 2e       	mov	r2, r31
     1a32:	f0 e0       	ldi	r31, 0x00	; 0
-    1a34:	5f 2e       	mov	r5, r31
+    1a34:	3f 2e       	mov	r3, r31
     1a36:	f0 2d       	mov	r31, r0
 }
 
@@ -3852,7 +3852,7 @@ int main(void) {
 		if (modeWork == mw_Clock) {
     1a58:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <modeWork>
     1a5c:	81 11       	cpse	r24, r1
-    1a5e:	09 c1       	rjmp	.+530    	; 0x1c72 <main+0x280>
+    1a5e:	0a c1       	rjmp	.+532    	; 0x1c74 <main+0x282>
 			checkNightMode();
     1a60:	92 d5       	rcall	.+2852   	; 0x2586 <__TEXT_REGION_LENGTH__+0x586>
 			timeCorrection();
@@ -3902,793 +3902,785 @@ int main(void) {
 					}
 				}
 			}
-			if (hourBeep.isActive) {
-    1ab6:	f1 01       	movw	r30, r2
-    1ab8:	90 81       	ld	r25, Z
-    1aba:	99 23       	and	r25, r25
-    1abc:	f1 f0       	breq	.+60     	; 0x1afa <main+0x108>
+			if (hourBeep.isActive && !nightMode.isActive) {
+    1ab6:	e7 ef       	ldi	r30, 0xF7	; 247
+    1ab8:	f0 e0       	ldi	r31, 0x00	; 0
+    1aba:	90 81       	ld	r25, Z
+    1abc:	99 23       	and	r25, r25
+    1abe:	11 f1       	breq	.+68     	; 0x1b04 <main+0x112>
+    1ac0:	d1 01       	movw	r26, r2
+    1ac2:	2c 91       	ld	r18, X
+    1ac4:	21 11       	cpse	r18, r1
+    1ac6:	1e c0       	rjmp	.+60     	; 0x1b04 <main+0x112>
 				if (hourBeep.manualActivation || (hourBeep.lastHour != dateTime.hour && dateTime.min == 0 && alarm.startMin != 0)) 
-    1abe:	21 81       	ldd	r18, Z+1	; 0x01
-    1ac0:	21 11       	cpse	r18, r1
-    1ac2:	10 c0       	rjmp	.+32     	; 0x1ae4 <main+0xf2>
-    1ac4:	32 81       	ldd	r19, Z+2	; 0x02
-    1ac6:	d4 01       	movw	r26, r8
-    1ac8:	12 96       	adiw	r26, 0x02	; 2
-    1aca:	2c 91       	ld	r18, X
-    1acc:	12 97       	sbiw	r26, 0x02	; 2
-    1ace:	32 17       	cp	r19, r18
-    1ad0:	a1 f0       	breq	.+40     	; 0x1afa <main+0x108>
-    1ad2:	11 96       	adiw	r26, 0x01	; 1
-    1ad4:	2c 91       	ld	r18, X
-    1ad6:	21 11       	cpse	r18, r1
-    1ad8:	10 c0       	rjmp	.+32     	; 0x1afa <main+0x108>
-    1ada:	20 91 e3 00 	lds	r18, 0x00E3	; 0x8000e3 <alarm+0x4>
-    1ade:	22 23       	and	r18, r18
-    1ae0:	09 f4       	brne	.+2      	; 0x1ae4 <main+0xf2>
-    1ae2:	18 c1       	rjmp	.+560    	; 0x1d14 <main+0x322>
+    1ac8:	20 91 f8 00 	lds	r18, 0x00F8	; 0x8000f8 <hourBeep+0x1>
+    1acc:	21 11       	cpse	r18, r1
+    1ace:	0e c0       	rjmp	.+28     	; 0x1aec <main+0xfa>
+    1ad0:	30 91 f9 00 	lds	r19, 0x00F9	; 0x8000f9 <hourBeep+0x2>
+    1ad4:	f4 01       	movw	r30, r8
+    1ad6:	22 81       	ldd	r18, Z+2	; 0x02
+    1ad8:	32 17       	cp	r19, r18
+    1ada:	a1 f0       	breq	.+40     	; 0x1b04 <main+0x112>
+    1adc:	21 81       	ldd	r18, Z+1	; 0x01
+    1ade:	21 11       	cpse	r18, r1
+    1ae0:	11 c0       	rjmp	.+34     	; 0x1b04 <main+0x112>
+    1ae2:	20 91 e3 00 	lds	r18, 0x00E3	; 0x8000e3 <alarm+0x4>
+    1ae6:	22 23       	and	r18, r18
+    1ae8:	09 f4       	brne	.+2      	; 0x1aec <main+0xfa>
+    1aea:	12 c1       	rjmp	.+548    	; 0x1d10 <main+0x31e>
 				{
 					hourBeep.manualActivation = false;
-    1ae4:	f1 01       	movw	r30, r2
-    1ae6:	11 82       	std	Z+1, r1	; 0x01
+    1aec:	10 92 f8 00 	sts	0x00F8, r1	; 0x8000f8 <hourBeep+0x1>
 					hourBeep.lastHour = dateTime.hour;
-    1ae8:	d4 01       	movw	r26, r8
-    1aea:	12 96       	adiw	r26, 0x02	; 2
-    1aec:	2c 91       	ld	r18, X
-    1aee:	22 83       	std	Z+2, r18	; 0x02
+    1af0:	d4 01       	movw	r26, r8
+    1af2:	12 96       	adiw	r26, 0x02	; 2
+    1af4:	2c 91       	ld	r18, X
+    1af6:	20 93 f9 00 	sts	0x00F9, r18	; 0x8000f9 <hourBeep+0x2>
 					hourBeep.beeper.canBeep = true;
-    1af0:	b1 e0       	ldi	r27, 0x01	; 1
-    1af2:	b4 83       	std	Z+4, r27	; 0x04
+    1afa:	b1 e0       	ldi	r27, 0x01	; 1
+    1afc:	b0 93 fb 00 	sts	0x00FB, r27	; 0x8000fb <hourBeep+0x4>
 					hourBeep.beeper.isCanInit = true;
-    1af4:	aa 24       	eor	r10, r10
-    1af6:	a3 94       	inc	r10
-    1af8:	a3 82       	std	Z+3, r10	; 0x03
+    1b00:	b0 93 fa 00 	sts	0x00FA, r27	; 0x8000fa <hourBeep+0x3>
 				} 
 			}
 			tube.isDoteActive[4] = alarm.isActive;
-    1afa:	80 93 b4 00 	sts	0x00B4, r24	; 0x8000b4 <tube+0x10>
+    1b04:	80 93 b4 00 	sts	0x00B4, r24	; 0x8000b4 <tube+0x10>
 			tube.isDoteActive[5] = hourBeep.isActive;
-    1afe:	90 93 b5 00 	sts	0x00B5, r25	; 0x8000b5 <tube+0x11>
+    1b08:	90 93 b5 00 	sts	0x00B5, r25	; 0x8000b5 <tube+0x11>
 			
 			tubeMode = tm_ShowTime;
-    1b02:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <tubeMode>
+    1b0c:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <tubeMode>
 			if (showDate.isActive) {
-    1b06:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <showDate+0x2>
-    1b0a:	88 23       	and	r24, r24
-    1b0c:	71 f0       	breq	.+28     	; 0x1b2a <main+0x138>
+    1b10:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <showDate+0x2>
+    1b14:	88 23       	and	r24, r24
+    1b16:	71 f0       	breq	.+28     	; 0x1b34 <main+0x142>
 				if (dateTime.sec >= showDate.start && dateTime.sec <= showDate.stop) {
-    1b0e:	d4 01       	movw	r26, r8
-    1b10:	8c 91       	ld	r24, X
-    1b12:	ed e0       	ldi	r30, 0x0D	; 13
-    1b14:	f1 e0       	ldi	r31, 0x01	; 1
-    1b16:	90 81       	ld	r25, Z
-    1b18:	89 17       	cp	r24, r25
-    1b1a:	38 f0       	brcs	.+14     	; 0x1b2a <main+0x138>
-    1b1c:	90 91 0e 01 	lds	r25, 0x010E	; 0x80010e <showDate+0x1>
-    1b20:	98 17       	cp	r25, r24
-    1b22:	18 f0       	brcs	.+6      	; 0x1b2a <main+0x138>
+    1b18:	f4 01       	movw	r30, r8
+    1b1a:	80 81       	ld	r24, Z
+    1b1c:	ad e0       	ldi	r26, 0x0D	; 13
+    1b1e:	b1 e0       	ldi	r27, 0x01	; 1
+    1b20:	9c 91       	ld	r25, X
+    1b22:	89 17       	cp	r24, r25
+    1b24:	38 f0       	brcs	.+14     	; 0x1b34 <main+0x142>
+    1b26:	90 91 0e 01 	lds	r25, 0x010E	; 0x80010e <showDate+0x1>
+    1b2a:	98 17       	cp	r25, r24
+    1b2c:	18 f0       	brcs	.+6      	; 0x1b34 <main+0x142>
 					tubeMode = tm_ShowDate;
-    1b24:	82 e0       	ldi	r24, 0x02	; 2
-    1b26:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <tubeMode>
+    1b2e:	82 e0       	ldi	r24, 0x02	; 2
+    1b30:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <tubeMode>
 				}
 			}
 			
 			if (dateTime.min % 10 == 0 && dateTime.sec < 3 && etching.lastMin != dateTime.min) {
-    1b2a:	d4 01       	movw	r26, r8
-    1b2c:	11 96       	adiw	r26, 0x01	; 1
-    1b2e:	2c 91       	ld	r18, X
-    1b30:	bd ec       	ldi	r27, 0xCD	; 205
-    1b32:	2b 9f       	mul	r18, r27
-    1b34:	81 2d       	mov	r24, r1
-    1b36:	11 24       	eor	r1, r1
-    1b38:	86 95       	lsr	r24
-    1b3a:	86 95       	lsr	r24
-    1b3c:	86 95       	lsr	r24
-    1b3e:	88 0f       	add	r24, r24
-    1b40:	98 2f       	mov	r25, r24
-    1b42:	99 0f       	add	r25, r25
-    1b44:	99 0f       	add	r25, r25
-    1b46:	89 0f       	add	r24, r25
-    1b48:	28 13       	cpse	r18, r24
-    1b4a:	31 c0       	rjmp	.+98     	; 0x1bae <main+0x1bc>
-    1b4c:	f4 01       	movw	r30, r8
-    1b4e:	80 81       	ld	r24, Z
-    1b50:	83 30       	cpi	r24, 0x03	; 3
-    1b52:	68 f5       	brcc	.+90     	; 0x1bae <main+0x1bc>
-    1b54:	d2 01       	movw	r26, r4
-    1b56:	11 96       	adiw	r26, 0x01	; 1
-    1b58:	8c 91       	ld	r24, X
-    1b5a:	11 97       	sbiw	r26, 0x01	; 1
-    1b5c:	82 17       	cp	r24, r18
-    1b5e:	39 f1       	breq	.+78     	; 0x1bae <main+0x1bc>
+    1b34:	f4 01       	movw	r30, r8
+    1b36:	21 81       	ldd	r18, Z+1	; 0x01
+    1b38:	fd ec       	ldi	r31, 0xCD	; 205
+    1b3a:	2f 9f       	mul	r18, r31
+    1b3c:	81 2d       	mov	r24, r1
+    1b3e:	11 24       	eor	r1, r1
+    1b40:	86 95       	lsr	r24
+    1b42:	86 95       	lsr	r24
+    1b44:	86 95       	lsr	r24
+    1b46:	88 0f       	add	r24, r24
+    1b48:	98 2f       	mov	r25, r24
+    1b4a:	99 0f       	add	r25, r25
+    1b4c:	99 0f       	add	r25, r25
+    1b4e:	89 0f       	add	r24, r25
+    1b50:	28 13       	cpse	r18, r24
+    1b52:	2e c0       	rjmp	.+92     	; 0x1bb0 <main+0x1be>
+    1b54:	d4 01       	movw	r26, r8
+    1b56:	8c 91       	ld	r24, X
+    1b58:	83 30       	cpi	r24, 0x03	; 3
+    1b5a:	50 f5       	brcc	.+84     	; 0x1bb0 <main+0x1be>
+    1b5c:	f2 01       	movw	r30, r4
+    1b5e:	81 81       	ldd	r24, Z+1	; 0x01
+    1b60:	82 17       	cp	r24, r18
+    1b62:	31 f1       	breq	.+76     	; 0x1bb0 <main+0x1be>
 				etching.lastMin = dateTime.min;
-    1b60:	11 96       	adiw	r26, 0x01	; 1
-    1b62:	2c 93       	st	X, r18
-    1b64:	11 97       	sbiw	r26, 0x01	; 1
+    1b64:	21 83       	std	Z+1, r18	; 0x01
 				etching.isWorking = true;
-    1b66:	e1 e0       	ldi	r30, 0x01	; 1
-    1b68:	ec 93       	st	X, r30
+    1b66:	aa 24       	eor	r10, r10
+    1b68:	a3 94       	inc	r10
+    1b6a:	a0 82       	st	Z, r10
 				etching.switchTime = millis();
-    1b6a:	eb d2       	rcall	.+1494   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
-    1b6c:	d2 01       	movw	r26, r4
-    1b6e:	15 96       	adiw	r26, 0x05	; 5
-    1b70:	2c 93       	st	X, r18
-    1b72:	15 97       	sbiw	r26, 0x05	; 5
-    1b74:	16 96       	adiw	r26, 0x06	; 6
-    1b76:	3c 93       	st	X, r19
-    1b78:	16 97       	sbiw	r26, 0x06	; 6
-    1b7a:	17 96       	adiw	r26, 0x07	; 7
-    1b7c:	4c 93       	st	X, r20
-    1b7e:	17 97       	sbiw	r26, 0x07	; 7
-    1b80:	18 96       	adiw	r26, 0x08	; 8
-    1b82:	5c 93       	st	X, r21
-    1b84:	18 97       	sbiw	r26, 0x08	; 8
-    1b86:	19 96       	adiw	r26, 0x09	; 9
-    1b88:	6c 93       	st	X, r22
-    1b8a:	19 97       	sbiw	r26, 0x09	; 9
-    1b8c:	1a 96       	adiw	r26, 0x0a	; 10
-    1b8e:	7c 93       	st	X, r23
-    1b90:	1a 97       	sbiw	r26, 0x0a	; 10
-    1b92:	1b 96       	adiw	r26, 0x0b	; 11
-    1b94:	8c 93       	st	X, r24
-    1b96:	1b 97       	sbiw	r26, 0x0b	; 11
-    1b98:	1c 96       	adiw	r26, 0x0c	; 12
-    1b9a:	9c 93       	st	X, r25
-    1b9c:	1c 97       	sbiw	r26, 0x0c	; 12
+    1b6c:	ea d2       	rcall	.+1492   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
+    1b6e:	d2 01       	movw	r26, r4
+    1b70:	15 96       	adiw	r26, 0x05	; 5
+    1b72:	2c 93       	st	X, r18
+    1b74:	15 97       	sbiw	r26, 0x05	; 5
+    1b76:	16 96       	adiw	r26, 0x06	; 6
+    1b78:	3c 93       	st	X, r19
+    1b7a:	16 97       	sbiw	r26, 0x06	; 6
+    1b7c:	17 96       	adiw	r26, 0x07	; 7
+    1b7e:	4c 93       	st	X, r20
+    1b80:	17 97       	sbiw	r26, 0x07	; 7
+    1b82:	18 96       	adiw	r26, 0x08	; 8
+    1b84:	5c 93       	st	X, r21
+    1b86:	18 97       	sbiw	r26, 0x08	; 8
+    1b88:	19 96       	adiw	r26, 0x09	; 9
+    1b8a:	6c 93       	st	X, r22
+    1b8c:	19 97       	sbiw	r26, 0x09	; 9
+    1b8e:	1a 96       	adiw	r26, 0x0a	; 10
+    1b90:	7c 93       	st	X, r23
+    1b92:	1a 97       	sbiw	r26, 0x0a	; 10
+    1b94:	1b 96       	adiw	r26, 0x0b	; 11
+    1b96:	8c 93       	st	X, r24
+    1b98:	1b 97       	sbiw	r26, 0x0b	; 11
+    1b9a:	1c 96       	adiw	r26, 0x0c	; 12
+    1b9c:	9c 93       	st	X, r25
+    1b9e:	1c 97       	sbiw	r26, 0x0c	; 12
 				etching.value = 0;
-    1b9e:	12 96       	adiw	r26, 0x02	; 2
-    1ba0:	1c 92       	st	X, r1
-    1ba2:	12 97       	sbiw	r26, 0x02	; 2
+    1ba0:	12 96       	adiw	r26, 0x02	; 2
+    1ba2:	1c 92       	st	X, r1
+    1ba4:	12 97       	sbiw	r26, 0x02	; 2
 			}
 			if (etching.isWorking) {
-    1ba4:	8c 91       	ld	r24, X
-    1ba6:	88 23       	and	r24, r24
-    1ba8:	09 f4       	brne	.+2      	; 0x1bac <main+0x1ba>
-    1baa:	84 c0       	rjmp	.+264    	; 0x1cb4 <main+0x2c2>
-    1bac:	0a c0       	rjmp	.+20     	; 0x1bc2 <main+0x1d0>
-    1bae:	f2 01       	movw	r30, r4
-    1bb0:	80 81       	ld	r24, Z
-    1bb2:	88 23       	and	r24, r24
-    1bb4:	09 f4       	brne	.+2      	; 0x1bb8 <main+0x1c6>
-    1bb6:	7e c0       	rjmp	.+252    	; 0x1cb4 <main+0x2c2>
+    1ba6:	8c 91       	ld	r24, X
+    1ba8:	88 23       	and	r24, r24
+    1baa:	09 f4       	brne	.+2      	; 0x1bae <main+0x1bc>
+    1bac:	84 c0       	rjmp	.+264    	; 0x1cb6 <main+0x2c4>
+    1bae:	0a c0       	rjmp	.+20     	; 0x1bc4 <main+0x1d2>
+    1bb0:	f2 01       	movw	r30, r4
+    1bb2:	80 81       	ld	r24, Z
+    1bb4:	88 23       	and	r24, r24
+    1bb6:	09 f4       	brne	.+2      	; 0x1bba <main+0x1c8>
+    1bb8:	7e c0       	rjmp	.+252    	; 0x1cb6 <main+0x2c4>
 				if (etching.value > 99) {
-    1bb8:	82 81       	ldd	r24, Z+2	; 0x02
-    1bba:	84 36       	cpi	r24, 0x64	; 100
-    1bbc:	10 f0       	brcs	.+4      	; 0x1bc2 <main+0x1d0>
+    1bba:	82 81       	ldd	r24, Z+2	; 0x02
+    1bbc:	84 36       	cpi	r24, 0x64	; 100
+    1bbe:	10 f0       	brcs	.+4      	; 0x1bc4 <main+0x1d2>
 					etching.isWorking = false;
-    1bbe:	10 82       	st	Z, r1
-    1bc0:	79 c0       	rjmp	.+242    	; 0x1cb4 <main+0x2c2>
+    1bc0:	10 82       	st	Z, r1
+    1bc2:	79 c0       	rjmp	.+242    	; 0x1cb6 <main+0x2c4>
 				} else { 
 					if (millis() - etching.switchTime >= etching.duration) {
-    1bc2:	bf d2       	rcall	.+1406   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
-    1bc4:	d2 01       	movw	r26, r4
-    1bc6:	15 96       	adiw	r26, 0x05	; 5
-    1bc8:	ac 90       	ld	r10, X
-    1bca:	15 97       	sbiw	r26, 0x05	; 5
-    1bcc:	16 96       	adiw	r26, 0x06	; 6
-    1bce:	bc 90       	ld	r11, X
-    1bd0:	16 97       	sbiw	r26, 0x06	; 6
-    1bd2:	17 96       	adiw	r26, 0x07	; 7
-    1bd4:	cc 90       	ld	r12, X
-    1bd6:	17 97       	sbiw	r26, 0x07	; 7
-    1bd8:	18 96       	adiw	r26, 0x08	; 8
-    1bda:	dc 90       	ld	r13, X
-    1bdc:	18 97       	sbiw	r26, 0x08	; 8
-    1bde:	19 96       	adiw	r26, 0x09	; 9
-    1be0:	ec 90       	ld	r14, X
-    1be2:	19 97       	sbiw	r26, 0x09	; 9
-    1be4:	1a 96       	adiw	r26, 0x0a	; 10
-    1be6:	fc 90       	ld	r15, X
-    1be8:	1a 97       	sbiw	r26, 0x0a	; 10
-    1bea:	1b 96       	adiw	r26, 0x0b	; 11
-    1bec:	0c 91       	ld	r16, X
-    1bee:	1b 97       	sbiw	r26, 0x0b	; 11
-    1bf0:	1c 96       	adiw	r26, 0x0c	; 12
-    1bf2:	1c 91       	ld	r17, X
-    1bf4:	1c 97       	sbiw	r26, 0x0c	; 12
-    1bf6:	3d d1       	rcall	.+634    	; 0x1e72 <__subdi3>
-    1bf8:	13 96       	adiw	r26, 0x03	; 3
-    1bfa:	ed 91       	ld	r30, X+
-    1bfc:	fc 91       	ld	r31, X
-    1bfe:	14 97       	sbiw	r26, 0x04	; 4
-    1c00:	5f 01       	movw	r10, r30
-    1c02:	c1 2c       	mov	r12, r1
-    1c04:	d1 2c       	mov	r13, r1
-    1c06:	e1 2c       	mov	r14, r1
-    1c08:	f1 2c       	mov	r15, r1
-    1c0a:	87 01       	movw	r16, r14
-    1c0c:	e9 83       	std	Y+1, r30	; 0x01
-    1c0e:	ba 82       	std	Y+2, r11	; 0x02
-    1c10:	cb 82       	std	Y+3, r12	; 0x03
-    1c12:	dc 82       	std	Y+4, r13	; 0x04
-    1c14:	ed 82       	std	Y+5, r14	; 0x05
-    1c16:	fe 82       	std	Y+6, r15	; 0x06
-    1c18:	0f 83       	std	Y+7, r16	; 0x07
-    1c1a:	18 87       	std	Y+8, r17	; 0x08
-    1c1c:	c1 2c       	mov	r12, r1
-    1c1e:	d1 2c       	mov	r13, r1
-    1c20:	e1 2c       	mov	r14, r1
-    1c22:	f1 2c       	mov	r15, r1
-    1c24:	00 e0       	ldi	r16, 0x00	; 0
-    1c26:	10 e0       	ldi	r17, 0x00	; 0
-    1c28:	2d d1       	rcall	.+602    	; 0x1e84 <__cmpdi2>
-    1c2a:	f8 f0       	brcs	.+62     	; 0x1c6a <main+0x278>
+    1bc4:	be d2       	rcall	.+1404   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
+    1bc6:	d2 01       	movw	r26, r4
+    1bc8:	15 96       	adiw	r26, 0x05	; 5
+    1bca:	ac 90       	ld	r10, X
+    1bcc:	15 97       	sbiw	r26, 0x05	; 5
+    1bce:	16 96       	adiw	r26, 0x06	; 6
+    1bd0:	bc 90       	ld	r11, X
+    1bd2:	16 97       	sbiw	r26, 0x06	; 6
+    1bd4:	17 96       	adiw	r26, 0x07	; 7
+    1bd6:	cc 90       	ld	r12, X
+    1bd8:	17 97       	sbiw	r26, 0x07	; 7
+    1bda:	18 96       	adiw	r26, 0x08	; 8
+    1bdc:	dc 90       	ld	r13, X
+    1bde:	18 97       	sbiw	r26, 0x08	; 8
+    1be0:	19 96       	adiw	r26, 0x09	; 9
+    1be2:	ec 90       	ld	r14, X
+    1be4:	19 97       	sbiw	r26, 0x09	; 9
+    1be6:	1a 96       	adiw	r26, 0x0a	; 10
+    1be8:	fc 90       	ld	r15, X
+    1bea:	1a 97       	sbiw	r26, 0x0a	; 10
+    1bec:	1b 96       	adiw	r26, 0x0b	; 11
+    1bee:	0c 91       	ld	r16, X
+    1bf0:	1b 97       	sbiw	r26, 0x0b	; 11
+    1bf2:	1c 96       	adiw	r26, 0x0c	; 12
+    1bf4:	1c 91       	ld	r17, X
+    1bf6:	1c 97       	sbiw	r26, 0x0c	; 12
+    1bf8:	3b d1       	rcall	.+630    	; 0x1e70 <__subdi3>
+    1bfa:	13 96       	adiw	r26, 0x03	; 3
+    1bfc:	ed 91       	ld	r30, X+
+    1bfe:	fc 91       	ld	r31, X
+    1c00:	14 97       	sbiw	r26, 0x04	; 4
+    1c02:	5f 01       	movw	r10, r30
+    1c04:	c1 2c       	mov	r12, r1
+    1c06:	d1 2c       	mov	r13, r1
+    1c08:	e1 2c       	mov	r14, r1
+    1c0a:	f1 2c       	mov	r15, r1
+    1c0c:	87 01       	movw	r16, r14
+    1c0e:	e9 83       	std	Y+1, r30	; 0x01
+    1c10:	ba 82       	std	Y+2, r11	; 0x02
+    1c12:	cb 82       	std	Y+3, r12	; 0x03
+    1c14:	dc 82       	std	Y+4, r13	; 0x04
+    1c16:	ed 82       	std	Y+5, r14	; 0x05
+    1c18:	fe 82       	std	Y+6, r15	; 0x06
+    1c1a:	0f 83       	std	Y+7, r16	; 0x07
+    1c1c:	18 87       	std	Y+8, r17	; 0x08
+    1c1e:	c1 2c       	mov	r12, r1
+    1c20:	d1 2c       	mov	r13, r1
+    1c22:	e1 2c       	mov	r14, r1
+    1c24:	f1 2c       	mov	r15, r1
+    1c26:	00 e0       	ldi	r16, 0x00	; 0
+    1c28:	10 e0       	ldi	r17, 0x00	; 0
+    1c2a:	2b d1       	rcall	.+598    	; 0x1e82 <__cmpdi2>
+    1c2c:	f8 f0       	brcs	.+62     	; 0x1c6c <main+0x27a>
 						etching.value+=11;
-    1c2c:	12 96       	adiw	r26, 0x02	; 2
-    1c2e:	8c 91       	ld	r24, X
-    1c30:	12 97       	sbiw	r26, 0x02	; 2
-    1c32:	85 5f       	subi	r24, 0xF5	; 245
-    1c34:	12 96       	adiw	r26, 0x02	; 2
-    1c36:	8c 93       	st	X, r24
+    1c2e:	12 96       	adiw	r26, 0x02	; 2
+    1c30:	8c 91       	ld	r24, X
+    1c32:	12 97       	sbiw	r26, 0x02	; 2
+    1c34:	85 5f       	subi	r24, 0xF5	; 245
+    1c36:	12 96       	adiw	r26, 0x02	; 2
+    1c38:	8c 93       	st	X, r24
 						etching.switchTime = millis();
-    1c38:	84 d2       	rcall	.+1288   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
-    1c3a:	d2 01       	movw	r26, r4
-    1c3c:	15 96       	adiw	r26, 0x05	; 5
-    1c3e:	2c 93       	st	X, r18
-    1c40:	15 97       	sbiw	r26, 0x05	; 5
-    1c42:	16 96       	adiw	r26, 0x06	; 6
-    1c44:	3c 93       	st	X, r19
-    1c46:	16 97       	sbiw	r26, 0x06	; 6
-    1c48:	17 96       	adiw	r26, 0x07	; 7
-    1c4a:	4c 93       	st	X, r20
-    1c4c:	17 97       	sbiw	r26, 0x07	; 7
-    1c4e:	18 96       	adiw	r26, 0x08	; 8
-    1c50:	5c 93       	st	X, r21
-    1c52:	18 97       	sbiw	r26, 0x08	; 8
-    1c54:	19 96       	adiw	r26, 0x09	; 9
-    1c56:	6c 93       	st	X, r22
-    1c58:	19 97       	sbiw	r26, 0x09	; 9
-    1c5a:	1a 96       	adiw	r26, 0x0a	; 10
-    1c5c:	7c 93       	st	X, r23
-    1c5e:	1a 97       	sbiw	r26, 0x0a	; 10
-    1c60:	1b 96       	adiw	r26, 0x0b	; 11
-    1c62:	8c 93       	st	X, r24
-    1c64:	1b 97       	sbiw	r26, 0x0b	; 11
-    1c66:	1c 96       	adiw	r26, 0x0c	; 12
-    1c68:	9c 93       	st	X, r25
+    1c3a:	83 d2       	rcall	.+1286   	; 0x2142 <__TEXT_REGION_LENGTH__+0x142>
+    1c3c:	d2 01       	movw	r26, r4
+    1c3e:	15 96       	adiw	r26, 0x05	; 5
+    1c40:	2c 93       	st	X, r18
+    1c42:	15 97       	sbiw	r26, 0x05	; 5
+    1c44:	16 96       	adiw	r26, 0x06	; 6
+    1c46:	3c 93       	st	X, r19
+    1c48:	16 97       	sbiw	r26, 0x06	; 6
+    1c4a:	17 96       	adiw	r26, 0x07	; 7
+    1c4c:	4c 93       	st	X, r20
+    1c4e:	17 97       	sbiw	r26, 0x07	; 7
+    1c50:	18 96       	adiw	r26, 0x08	; 8
+    1c52:	5c 93       	st	X, r21
+    1c54:	18 97       	sbiw	r26, 0x08	; 8
+    1c56:	19 96       	adiw	r26, 0x09	; 9
+    1c58:	6c 93       	st	X, r22
+    1c5a:	19 97       	sbiw	r26, 0x09	; 9
+    1c5c:	1a 96       	adiw	r26, 0x0a	; 10
+    1c5e:	7c 93       	st	X, r23
+    1c60:	1a 97       	sbiw	r26, 0x0a	; 10
+    1c62:	1b 96       	adiw	r26, 0x0b	; 11
+    1c64:	8c 93       	st	X, r24
+    1c66:	1b 97       	sbiw	r26, 0x0b	; 11
+    1c68:	1c 96       	adiw	r26, 0x0c	; 12
+    1c6a:	9c 93       	st	X, r25
 					}
 					tubeMode = tm_Etching;
-    1c6a:	bf ef       	ldi	r27, 0xFF	; 255
-    1c6c:	b0 93 64 00 	sts	0x0064, r27	; 0x800064 <tubeMode>
-    1c70:	21 c0       	rjmp	.+66     	; 0x1cb4 <main+0x2c2>
+    1c6c:	bf ef       	ldi	r27, 0xFF	; 255
+    1c6e:	b0 93 64 00 	sts	0x0064, r27	; 0x800064 <tubeMode>
+    1c72:	21 c0       	rjmp	.+66     	; 0x1cb6 <main+0x2c4>
 				}
 			}
 		} else {
 			if (prevSec != dateTime.sec) {
-    1c72:	f4 01       	movw	r30, r8
-    1c74:	80 81       	ld	r24, Z
-    1c76:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <_edata>
-    1c7a:	89 17       	cp	r24, r25
-    1c7c:	a9 f0       	breq	.+42     	; 0x1ca8 <main+0x2b6>
+    1c74:	f4 01       	movw	r30, r8
+    1c76:	80 81       	ld	r24, Z
+    1c78:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <_edata>
+    1c7c:	89 17       	cp	r24, r25
+    1c7e:	a9 f0       	breq	.+42     	; 0x1caa <main+0x2b8>
 				prevSec = dateTime.sec;
-    1c7e:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+    1c80:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
 				if (returnTime == 0) {
-    1c82:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <returnTime>
-    1c86:	81 11       	cpse	r24, r1
-    1c88:	0c c0       	rjmp	.+24     	; 0x1ca2 <main+0x2b0>
+    1c84:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <returnTime>
+    1c88:	81 11       	cpse	r24, r1
+    1c8a:	0c c0       	rjmp	.+24     	; 0x1ca4 <main+0x2b2>
 					modeWork = mw_Clock;
-    1c8a:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <modeWork>
-    1c8e:	e4 ea       	ldi	r30, 0xA4	; 164
-    1c90:	f0 e0       	ldi	r31, 0x00	; 0
+    1c8c:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <modeWork>
+    1c90:	e4 ea       	ldi	r30, 0xA4	; 164
+    1c92:	f0 e0       	ldi	r31, 0x00	; 0
 					for (uint8_t i = 0; i < 6; i++) {
 						tube.isFlash[i] = false;
-    1c92:	11 92       	st	Z+, r1
+    1c94:	11 92       	st	Z+, r1
 						tube.isDisabled[i] = false;
-    1c94:	15 82       	std	Z+5, r1	; 0x05
+    1c96:	15 82       	std	Z+5, r1	; 0x05
 						tube.isDoteActive[i] = false;
-    1c96:	13 86       	std	Z+11, r1	; 0x0b
+    1c98:	13 86       	std	Z+11, r1	; 0x0b
 		} else {
 			if (prevSec != dateTime.sec) {
 				prevSec = dateTime.sec;
 				if (returnTime == 0) {
 					modeWork = mw_Clock;
 					for (uint8_t i = 0; i < 6; i++) {
-    1c98:	e6 15       	cp	r30, r6
-    1c9a:	f7 05       	cpc	r31, r7
-    1c9c:	d1 f7       	brne	.-12     	; 0x1c92 <main+0x2a0>
+    1c9a:	e6 15       	cp	r30, r6
+    1c9c:	f7 05       	cpc	r31, r7
+    1c9e:	d1 f7       	brne	.-12     	; 0x1c94 <main+0x2a2>
 						tube.isFlash[i] = false;
 						tube.isDisabled[i] = false;
 						tube.isDoteActive[i] = false;
 					}
 					resetButtons();
-    1c9e:	52 d4       	rcall	.+2212   	; 0x2544 <__TEXT_REGION_LENGTH__+0x544>
-    1ca0:	03 c0       	rjmp	.+6      	; 0x1ca8 <main+0x2b6>
+    1ca0:	51 d4       	rcall	.+2210   	; 0x2544 <__TEXT_REGION_LENGTH__+0x544>
+    1ca2:	03 c0       	rjmp	.+6      	; 0x1caa <main+0x2b8>
 				} else {
 					returnTime--;
-    1ca2:	81 50       	subi	r24, 0x01	; 1
-    1ca4:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <returnTime>
+    1ca4:	81 50       	subi	r24, 0x01	; 1
+    1ca6:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <returnTime>
 				}
 			}
 			if (!editValue.isGrabbed) {
-    1ca8:	a2 e8       	ldi	r26, 0x82	; 130
-    1caa:	b0 e0       	ldi	r27, 0x00	; 0
-    1cac:	8c 91       	ld	r24, X
-    1cae:	81 11       	cpse	r24, r1
-    1cb0:	01 c0       	rjmp	.+2      	; 0x1cb4 <main+0x2c2>
+    1caa:	a2 e8       	ldi	r26, 0x82	; 130
+    1cac:	b0 e0       	ldi	r27, 0x00	; 0
+    1cae:	8c 91       	ld	r24, X
+    1cb0:	81 11       	cpse	r24, r1
+    1cb2:	01 c0       	rjmp	.+2      	; 0x1cb6 <main+0x2c4>
 				assignEditDigit();
-    1cb2:	10 d5       	rcall	.+2592   	; 0x26d4 <__TEXT_REGION_LENGTH__+0x6d4>
+    1cb4:	0f d5       	rcall	.+2590   	; 0x26d4 <__TEXT_REGION_LENGTH__+0x6d4>
 			}
 		}
 		
 
 		if (!alarm.isTurnedOff) {
-    1cb4:	80 91 e0 00 	lds	r24, 0x00E0	; 0x8000e0 <alarm+0x1>
-    1cb8:	81 11       	cpse	r24, r1
-    1cba:	16 c0       	rjmp	.+44     	; 0x1ce8 <main+0x2f6>
+    1cb6:	80 91 e0 00 	lds	r24, 0x00E0	; 0x8000e0 <alarm+0x1>
+    1cba:	81 11       	cpse	r24, r1
+    1cbc:	15 c0       	rjmp	.+42     	; 0x1ce8 <main+0x2f6>
 			if (alarm.beeper.canBeep && alarm.isActive) {
-    1cbc:	80 91 e5 00 	lds	r24, 0x00E5	; 0x8000e5 <alarm+0x6>
-    1cc0:	88 23       	and	r24, r24
-    1cc2:	49 f0       	breq	.+18     	; 0x1cd6 <main+0x2e4>
-    1cc4:	ef ed       	ldi	r30, 0xDF	; 223
-    1cc6:	f0 e0       	ldi	r31, 0x00	; 0
-    1cc8:	80 81       	ld	r24, Z
-    1cca:	88 23       	and	r24, r24
-    1ccc:	21 f0       	breq	.+8      	; 0x1cd6 <main+0x2e4>
+    1cbe:	80 91 e5 00 	lds	r24, 0x00E5	; 0x8000e5 <alarm+0x6>
+    1cc2:	88 23       	and	r24, r24
+    1cc4:	49 f0       	breq	.+18     	; 0x1cd8 <main+0x2e6>
+    1cc6:	ef ed       	ldi	r30, 0xDF	; 223
+    1cc8:	f0 e0       	ldi	r31, 0x00	; 0
+    1cca:	80 81       	ld	r24, Z
+    1ccc:	88 23       	and	r24, r24
+    1cce:	21 f0       	breq	.+8      	; 0x1cd8 <main+0x2e6>
 				ledBlinking.isCanInit = true;
-    1cce:	e1 e0       	ldi	r30, 0x01	; 1
-    1cd0:	a6 e6       	ldi	r26, 0x66	; 102
-    1cd2:	b0 e0       	ldi	r27, 0x00	; 0
-    1cd4:	ec 93       	st	X, r30
+    1cd0:	e1 e0       	ldi	r30, 0x01	; 1
+    1cd2:	a6 e6       	ldi	r26, 0x66	; 102
+    1cd4:	b0 e0       	ldi	r27, 0x00	; 0
+    1cd6:	ec 93       	st	X, r30
 			}
 			if (!hourBeep.beeper.canBeep) {
-    1cd6:	d1 01       	movw	r26, r2
-    1cd8:	14 96       	adiw	r26, 0x04	; 4
-    1cda:	8c 91       	ld	r24, X
+    1cd8:	80 91 fb 00 	lds	r24, 0x00FB	; 0x8000fb <hourBeep+0x4>
     1cdc:	81 11       	cpse	r24, r1
-    1cde:	0c c0       	rjmp	.+24     	; 0x1cf8 <main+0x306>
+    1cde:	0b c0       	rjmp	.+22     	; 0x1cf6 <main+0x304>
 				beepController(&alarm.beeper);
     1ce0:	84 ee       	ldi	r24, 0xE4	; 228
     1ce2:	90 e0       	ldi	r25, 0x00	; 0
     1ce4:	2b dd       	rcall	.-1450   	; 0x173c <_Z14beepControllerP6Beeper>
-    1ce6:	08 c0       	rjmp	.+16     	; 0x1cf8 <main+0x306>
+    1ce6:	07 c0       	rjmp	.+14     	; 0x1cf6 <main+0x304>
 			}
 		} else {
 			alarm.beeper.canBeep = false;
     1ce8:	10 92 e5 00 	sts	0x00E5, r1	; 0x8000e5 <alarm+0x6>
 		}
 		if (!nightMode.isActive && !alarm.beeper.canBeep) {
-    1cec:	e2 e9       	ldi	r30, 0x92	; 146
-    1cee:	f0 e0       	ldi	r31, 0x00	; 0
-    1cf0:	80 81       	ld	r24, Z
-    1cf2:	81 11       	cpse	r24, r1
-    1cf4:	0d c0       	rjmp	.+26     	; 0x1d10 <main+0x31e>
-    1cf6:	09 c0       	rjmp	.+18     	; 0x1d0a <main+0x318>
-    1cf8:	a2 e9       	ldi	r26, 0x92	; 146
-    1cfa:	b0 e0       	ldi	r27, 0x00	; 0
-    1cfc:	8c 91       	ld	r24, X
-    1cfe:	81 11       	cpse	r24, r1
-    1d00:	07 c0       	rjmp	.+14     	; 0x1d10 <main+0x31e>
-    1d02:	80 91 e5 00 	lds	r24, 0x00E5	; 0x8000e5 <alarm+0x6>
-    1d06:	81 11       	cpse	r24, r1
-    1d08:	03 c0       	rjmp	.+6      	; 0x1d10 <main+0x31e>
+    1cec:	d1 01       	movw	r26, r2
+    1cee:	8c 91       	ld	r24, X
+    1cf0:	81 11       	cpse	r24, r1
+    1cf2:	0c c0       	rjmp	.+24     	; 0x1d0c <main+0x31a>
+    1cf4:	08 c0       	rjmp	.+16     	; 0x1d06 <main+0x314>
+    1cf6:	f1 01       	movw	r30, r2
+    1cf8:	80 81       	ld	r24, Z
+    1cfa:	81 11       	cpse	r24, r1
+    1cfc:	07 c0       	rjmp	.+14     	; 0x1d0c <main+0x31a>
+    1cfe:	80 91 e5 00 	lds	r24, 0x00E5	; 0x8000e5 <alarm+0x6>
+    1d02:	81 11       	cpse	r24, r1
+    1d04:	03 c0       	rjmp	.+6      	; 0x1d0c <main+0x31a>
 			beepController(&hourBeep.beeper);
-    1d0a:	8a ef       	ldi	r24, 0xFA	; 250
-    1d0c:	90 e0       	ldi	r25, 0x00	; 0
-    1d0e:	16 dd       	rcall	.-1492   	; 0x173c <_Z14beepControllerP6Beeper>
+    1d06:	8a ef       	ldi	r24, 0xFA	; 250
+    1d08:	90 e0       	ldi	r25, 0x00	; 0
+    1d0a:	18 dd       	rcall	.-1488   	; 0x173c <_Z14beepControllerP6Beeper>
 		}
 		tubeAsMode();
-    1d10:	54 d6       	rcall	.+3240   	; 0x29ba <__TEXT_REGION_LENGTH__+0x9ba>
+    1d0c:	56 d6       	rcall	.+3244   	; 0x29ba <__TEXT_REGION_LENGTH__+0x9ba>
 	initMillis();
 }
 
 int main(void) {
 	init();
 	while (true) {
-    1d12:	92 ce       	rjmp	.-732    	; 0x1a38 <main+0x46>
+    1d0e:	94 ce       	rjmp	.-728    	; 0x1a38 <main+0x46>
 					hourBeep.lastHour = dateTime.hour;
 					hourBeep.beeper.canBeep = true;
 					hourBeep.beeper.isCanInit = true;
 				} 
 			}
 			tube.isDoteActive[4] = alarm.isActive;
-    1d14:	80 93 b4 00 	sts	0x00B4, r24	; 0x8000b4 <tube+0x10>
+    1d10:	80 93 b4 00 	sts	0x00B4, r24	; 0x8000b4 <tube+0x10>
 			tube.isDoteActive[5] = hourBeep.isActive;
-    1d18:	b1 e0       	ldi	r27, 0x01	; 1
-    1d1a:	b0 93 b5 00 	sts	0x00B5, r27	; 0x8000b5 <tube+0x11>
+    1d14:	f1 e0       	ldi	r31, 0x01	; 1
+    1d16:	f0 93 b5 00 	sts	0x00B5, r31	; 0x8000b5 <tube+0x11>
 			
 			tubeMode = tm_ShowTime;
-    1d1e:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <tubeMode>
+    1d1a:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <tubeMode>
 			if (showDate.isActive) {
-    1d22:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <showDate+0x2>
-    1d26:	81 11       	cpse	r24, r1
-    1d28:	04 c0       	rjmp	.+8      	; 0x1d32 <main+0x340>
-    1d2a:	10 cf       	rjmp	.-480    	; 0x1b4c <main+0x15a>
+    1d1e:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <showDate+0x2>
+    1d22:	81 11       	cpse	r24, r1
+    1d24:	05 c0       	rjmp	.+10     	; 0x1d30 <main+0x33e>
+    1d26:	16 cf       	rjmp	.-468    	; 0x1b54 <main+0x162>
 				if (dateTime.sec >= showDate.start && dateTime.sec <= showDate.stop) {
 					tubeMode = tm_ShowDate;
 				}
 			}
 			
 			if (dateTime.min % 10 == 0 && dateTime.sec < 3 && etching.lastMin != dateTime.min) {
-    1d2c:	f4 01       	movw	r30, r8
-    1d2e:	21 81       	ldd	r18, Z+1	; 0x01
-    1d30:	0d cf       	rjmp	.-486    	; 0x1b4c <main+0x15a>
+    1d28:	d4 01       	movw	r26, r8
+    1d2a:	11 96       	adiw	r26, 0x01	; 1
+    1d2c:	2c 91       	ld	r18, X
+    1d2e:	12 cf       	rjmp	.-476    	; 0x1b54 <main+0x162>
 			tube.isDoteActive[4] = alarm.isActive;
 			tube.isDoteActive[5] = hourBeep.isActive;
 			
 			tubeMode = tm_ShowTime;
 			if (showDate.isActive) {
 				if (dateTime.sec >= showDate.start && dateTime.sec <= showDate.stop) {
-    1d32:	d4 01       	movw	r26, r8
-    1d34:	8c 91       	ld	r24, X
-    1d36:	ed e0       	ldi	r30, 0x0D	; 13
-    1d38:	f1 e0       	ldi	r31, 0x01	; 1
-    1d3a:	90 81       	ld	r25, Z
-    1d3c:	89 17       	cp	r24, r25
-    1d3e:	08 f0       	brcs	.+2      	; 0x1d42 <main+0x350>
-    1d40:	ed ce       	rjmp	.-550    	; 0x1b1c <main+0x12a>
-    1d42:	f4 cf       	rjmp	.-24     	; 0x1d2c <main+0x33a>
+    1d30:	f4 01       	movw	r30, r8
+    1d32:	80 81       	ld	r24, Z
+    1d34:	ad e0       	ldi	r26, 0x0D	; 13
+    1d36:	b1 e0       	ldi	r27, 0x01	; 1
+    1d38:	9c 91       	ld	r25, X
+    1d3a:	89 17       	cp	r24, r25
+    1d3c:	08 f0       	brcs	.+2      	; 0x1d40 <main+0x34e>
+    1d3e:	f3 ce       	rjmp	.-538    	; 0x1b26 <main+0x134>
+    1d40:	f3 cf       	rjmp	.-26     	; 0x1d28 <main+0x336>
 
-00001d44 <_Z8i2c_initv>:
+00001d42 <_Z8i2c_initv>:
 #include <compat/twi.h>
 
 //#define SCL_CLOCK  ((F_CPU / 10000L)-16) / 2
 
 void i2c_init(void) {
   TWSR = 0;                        
-    1d44:	11 b8       	out	0x01, r1	; 1
+    1d42:	11 b8       	out	0x01, r1	; 1
   TWBR = 392; 
-    1d46:	88 e8       	ldi	r24, 0x88	; 136
-    1d48:	80 b9       	out	0x00, r24	; 0
-    1d4a:	08 95       	ret
+    1d44:	88 e8       	ldi	r24, 0x88	; 136
+    1d46:	80 b9       	out	0x00, r24	; 0
+    1d48:	08 95       	ret
 
-00001d4c <_Z9i2c_starth>:
+00001d4a <_Z9i2c_starth>:
 }
 
 unsigned char i2c_start(unsigned char address) {
     uint8_t   twst;
 	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-    1d4c:	94 ea       	ldi	r25, 0xA4	; 164
-    1d4e:	96 bf       	out	0x36, r25	; 54
+    1d4a:	94 ea       	ldi	r25, 0xA4	; 164
+    1d4c:	96 bf       	out	0x36, r25	; 54
 	while(!(TWCR & (1<<TWINT)));
-    1d50:	06 b6       	in	r0, 0x36	; 54
-    1d52:	07 fe       	sbrs	r0, 7
-    1d54:	fd cf       	rjmp	.-6      	; 0x1d50 <_Z9i2c_starth+0x4>
+    1d4e:	06 b6       	in	r0, 0x36	; 54
+    1d50:	07 fe       	sbrs	r0, 7
+    1d52:	fd cf       	rjmp	.-6      	; 0x1d4e <_Z9i2c_starth+0x4>
 	twst = TW_STATUS & 0xF8;
-    1d56:	91 b1       	in	r25, 0x01	; 1
-    1d58:	98 7f       	andi	r25, 0xF8	; 248
+    1d54:	91 b1       	in	r25, 0x01	; 1
+    1d56:	98 7f       	andi	r25, 0xF8	; 248
 	if ( (twst != TW_START) && (twst != TW_REP_START)) return 1;
-    1d5a:	98 30       	cpi	r25, 0x08	; 8
-    1d5c:	11 f0       	breq	.+4      	; 0x1d62 <_Z9i2c_starth+0x16>
-    1d5e:	90 31       	cpi	r25, 0x10	; 16
-    1d60:	79 f4       	brne	.+30     	; 0x1d80 <_Z9i2c_starth+0x34>
+    1d58:	98 30       	cpi	r25, 0x08	; 8
+    1d5a:	11 f0       	breq	.+4      	; 0x1d60 <_Z9i2c_starth+0x16>
+    1d5c:	90 31       	cpi	r25, 0x10	; 16
+    1d5e:	79 f4       	brne	.+30     	; 0x1d7e <_Z9i2c_starth+0x34>
 	TWDR = address;
-    1d62:	83 b9       	out	0x03, r24	; 3
+    1d60:	83 b9       	out	0x03, r24	; 3
 	TWCR = (1<<TWINT) | (1<<TWEN);
-    1d64:	84 e8       	ldi	r24, 0x84	; 132
-    1d66:	86 bf       	out	0x36, r24	; 54
+    1d62:	84 e8       	ldi	r24, 0x84	; 132
+    1d64:	86 bf       	out	0x36, r24	; 54
 	while(!(TWCR & (1<<TWINT)));
-    1d68:	06 b6       	in	r0, 0x36	; 54
-    1d6a:	07 fe       	sbrs	r0, 7
-    1d6c:	fd cf       	rjmp	.-6      	; 0x1d68 <_Z9i2c_starth+0x1c>
+    1d66:	06 b6       	in	r0, 0x36	; 54
+    1d68:	07 fe       	sbrs	r0, 7
+    1d6a:	fd cf       	rjmp	.-6      	; 0x1d66 <_Z9i2c_starth+0x1c>
 	twst = TW_STATUS & 0xF8;
-    1d6e:	91 b1       	in	r25, 0x01	; 1
-    1d70:	98 7f       	andi	r25, 0xF8	; 248
+    1d6c:	91 b1       	in	r25, 0x01	; 1
+    1d6e:	98 7f       	andi	r25, 0xF8	; 248
 	if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) return 1;
-    1d72:	98 31       	cpi	r25, 0x18	; 24
-    1d74:	39 f0       	breq	.+14     	; 0x1d84 <_Z9i2c_starth+0x38>
+    1d70:	98 31       	cpi	r25, 0x18	; 24
+    1d72:	39 f0       	breq	.+14     	; 0x1d82 <_Z9i2c_starth+0x38>
 unsigned char i2c_start(unsigned char address) {
     uint8_t   twst;
 	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
 	while(!(TWCR & (1<<TWINT)));
 	twst = TW_STATUS & 0xF8;
 	if ( (twst != TW_START) && (twst != TW_REP_START)) return 1;
-    1d76:	81 e0       	ldi	r24, 0x01	; 1
-    1d78:	90 34       	cpi	r25, 0x40	; 64
-    1d7a:	29 f4       	brne	.+10     	; 0x1d86 <_Z9i2c_starth+0x3a>
-    1d7c:	80 e0       	ldi	r24, 0x00	; 0
-    1d7e:	08 95       	ret
-    1d80:	81 e0       	ldi	r24, 0x01	; 1
-    1d82:	08 95       	ret
+    1d74:	81 e0       	ldi	r24, 0x01	; 1
+    1d76:	90 34       	cpi	r25, 0x40	; 64
+    1d78:	29 f4       	brne	.+10     	; 0x1d84 <_Z9i2c_starth+0x3a>
+    1d7a:	80 e0       	ldi	r24, 0x00	; 0
+    1d7c:	08 95       	ret
+    1d7e:	81 e0       	ldi	r24, 0x01	; 1
+    1d80:	08 95       	ret
 	TWDR = address;
 	TWCR = (1<<TWINT) | (1<<TWEN);
 	while(!(TWCR & (1<<TWINT)));
 	twst = TW_STATUS & 0xF8;
 	if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) return 1;
 	return 0;
-    1d84:	80 e0       	ldi	r24, 0x00	; 0
+    1d82:	80 e0       	ldi	r24, 0x00	; 0
 }
-    1d86:	08 95       	ret
+    1d84:	08 95       	ret
 
-00001d88 <_Z14i2c_start_waith>:
+00001d86 <_Z14i2c_start_waith>:
 
 void i2c_start_wait(unsigned char address) {
     uint8_t   twst;
 	while ( 1 ) {
 	    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-    1d88:	24 ea       	ldi	r18, 0xA4	; 164
+    1d86:	24 ea       	ldi	r18, 0xA4	; 164
     	while(!(TWCR & (1<<TWINT)));
     	twst = TW_STATUS & 0xF8;
     	if ( (twst != TW_START) && (twst != TW_REP_START)) continue;
     	TWDR = address;
     	TWCR = (1<<TWINT) | (1<<TWEN);
-    1d8a:	34 e8       	ldi	r19, 0x84	; 132
+    1d88:	34 e8       	ldi	r19, 0x84	; 132
     	while(!(TWCR & (1<<TWINT)));
     	twst = TW_STATUS & 0xF8;
     	if ( (twst == TW_MT_SLA_NACK )||(twst ==TW_MR_DATA_NACK) ) {    	    
 	        TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
-    1d8c:	44 e9       	ldi	r20, 0x94	; 148
+    1d8a:	44 e9       	ldi	r20, 0x94	; 148
 }
 
 void i2c_start_wait(unsigned char address) {
     uint8_t   twst;
 	while ( 1 ) {
 	    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-    1d8e:	26 bf       	out	0x36, r18	; 54
+    1d8c:	26 bf       	out	0x36, r18	; 54
     	while(!(TWCR & (1<<TWINT)));
-    1d90:	06 b6       	in	r0, 0x36	; 54
-    1d92:	07 fe       	sbrs	r0, 7
-    1d94:	fd cf       	rjmp	.-6      	; 0x1d90 <_Z14i2c_start_waith+0x8>
+    1d8e:	06 b6       	in	r0, 0x36	; 54
+    1d90:	07 fe       	sbrs	r0, 7
+    1d92:	fd cf       	rjmp	.-6      	; 0x1d8e <_Z14i2c_start_waith+0x8>
     	twst = TW_STATUS & 0xF8;
-    1d96:	91 b1       	in	r25, 0x01	; 1
-    1d98:	98 7f       	andi	r25, 0xF8	; 248
+    1d94:	91 b1       	in	r25, 0x01	; 1
+    1d96:	98 7f       	andi	r25, 0xF8	; 248
     	if ( (twst != TW_START) && (twst != TW_REP_START)) continue;
-    1d9a:	98 30       	cpi	r25, 0x08	; 8
-    1d9c:	11 f0       	breq	.+4      	; 0x1da2 <_Z14i2c_start_waith+0x1a>
-    1d9e:	90 31       	cpi	r25, 0x10	; 16
-    1da0:	b1 f7       	brne	.-20     	; 0x1d8e <_Z14i2c_start_waith+0x6>
+    1d98:	98 30       	cpi	r25, 0x08	; 8
+    1d9a:	11 f0       	breq	.+4      	; 0x1da0 <_Z14i2c_start_waith+0x1a>
+    1d9c:	90 31       	cpi	r25, 0x10	; 16
+    1d9e:	b1 f7       	brne	.-20     	; 0x1d8c <_Z14i2c_start_waith+0x6>
     	TWDR = address;
-    1da2:	83 b9       	out	0x03, r24	; 3
+    1da0:	83 b9       	out	0x03, r24	; 3
     	TWCR = (1<<TWINT) | (1<<TWEN);
-    1da4:	36 bf       	out	0x36, r19	; 54
+    1da2:	36 bf       	out	0x36, r19	; 54
     	while(!(TWCR & (1<<TWINT)));
-    1da6:	06 b6       	in	r0, 0x36	; 54
-    1da8:	07 fe       	sbrs	r0, 7
-    1daa:	fd cf       	rjmp	.-6      	; 0x1da6 <_Z14i2c_start_waith+0x1e>
+    1da4:	06 b6       	in	r0, 0x36	; 54
+    1da6:	07 fe       	sbrs	r0, 7
+    1da8:	fd cf       	rjmp	.-6      	; 0x1da4 <_Z14i2c_start_waith+0x1e>
     	twst = TW_STATUS & 0xF8;
-    1dac:	91 b1       	in	r25, 0x01	; 1
-    1dae:	98 7f       	andi	r25, 0xF8	; 248
+    1daa:	91 b1       	in	r25, 0x01	; 1
+    1dac:	98 7f       	andi	r25, 0xF8	; 248
     	if ( (twst == TW_MT_SLA_NACK )||(twst ==TW_MR_DATA_NACK) ) {    	    
-    1db0:	90 32       	cpi	r25, 0x20	; 32
-    1db2:	11 f0       	breq	.+4      	; 0x1db8 <_Z14i2c_start_waith+0x30>
-    1db4:	98 35       	cpi	r25, 0x58	; 88
-    1db6:	29 f4       	brne	.+10     	; 0x1dc2 <_Z14i2c_start_waith+0x3a>
+    1dae:	90 32       	cpi	r25, 0x20	; 32
+    1db0:	11 f0       	breq	.+4      	; 0x1db6 <_Z14i2c_start_waith+0x30>
+    1db2:	98 35       	cpi	r25, 0x58	; 88
+    1db4:	29 f4       	brne	.+10     	; 0x1dc0 <_Z14i2c_start_waith+0x3a>
 	        TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
-    1db8:	46 bf       	out	0x36, r20	; 54
+    1db6:	46 bf       	out	0x36, r20	; 54
 	        while(TWCR & (1<<TWSTO));
-    1dba:	06 b6       	in	r0, 0x36	; 54
-    1dbc:	04 fc       	sbrc	r0, 4
-    1dbe:	fd cf       	rjmp	.-6      	; 0x1dba <_Z14i2c_start_waith+0x32>
-    1dc0:	e6 cf       	rjmp	.-52     	; 0x1d8e <_Z14i2c_start_waith+0x6>
-    1dc2:	08 95       	ret
+    1db8:	06 b6       	in	r0, 0x36	; 54
+    1dba:	04 fc       	sbrc	r0, 4
+    1dbc:	fd cf       	rjmp	.-6      	; 0x1db8 <_Z14i2c_start_waith+0x32>
+    1dbe:	e6 cf       	rjmp	.-52     	; 0x1d8c <_Z14i2c_start_waith+0x6>
+    1dc0:	08 95       	ret
 
-00001dc4 <_Z13i2c_rep_starth>:
+00001dc2 <_Z13i2c_rep_starth>:
     	break;
      }
 }
 
 unsigned char i2c_rep_start(unsigned char address) {
     return i2c_start( address );
-    1dc4:	c3 df       	rcall	.-122    	; 0x1d4c <_Z9i2c_starth>
+    1dc2:	c3 df       	rcall	.-122    	; 0x1d4a <_Z9i2c_starth>
 }
-    1dc6:	08 95       	ret
+    1dc4:	08 95       	ret
 
-00001dc8 <_Z8i2c_stopv>:
+00001dc6 <_Z8i2c_stopv>:
 
 void i2c_stop(void) {
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
-    1dc8:	84 e9       	ldi	r24, 0x94	; 148
-    1dca:	86 bf       	out	0x36, r24	; 54
+    1dc6:	84 e9       	ldi	r24, 0x94	; 148
+    1dc8:	86 bf       	out	0x36, r24	; 54
 	while(TWCR & (1<<TWSTO));
-    1dcc:	06 b6       	in	r0, 0x36	; 54
-    1dce:	04 fc       	sbrc	r0, 4
-    1dd0:	fd cf       	rjmp	.-6      	; 0x1dcc <_Z8i2c_stopv+0x4>
+    1dca:	06 b6       	in	r0, 0x36	; 54
+    1dcc:	04 fc       	sbrc	r0, 4
+    1dce:	fd cf       	rjmp	.-6      	; 0x1dca <_Z8i2c_stopv+0x4>
 }
-    1dd2:	08 95       	ret
+    1dd0:	08 95       	ret
 
-00001dd4 <_Z9i2c_writeh>:
+00001dd2 <_Z9i2c_writeh>:
 
 unsigned char i2c_write( unsigned char data ) {	
     uint8_t   twst;
 	TWDR = data;
-    1dd4:	83 b9       	out	0x03, r24	; 3
+    1dd2:	83 b9       	out	0x03, r24	; 3
 	TWCR = (1<<TWINT) | (1<<TWEN);
-    1dd6:	84 e8       	ldi	r24, 0x84	; 132
-    1dd8:	86 bf       	out	0x36, r24	; 54
+    1dd4:	84 e8       	ldi	r24, 0x84	; 132
+    1dd6:	86 bf       	out	0x36, r24	; 54
 	while(!(TWCR & (1<<TWINT)));
-    1dda:	06 b6       	in	r0, 0x36	; 54
-    1ddc:	07 fe       	sbrs	r0, 7
-    1dde:	fd cf       	rjmp	.-6      	; 0x1dda <_Z9i2c_writeh+0x6>
+    1dd8:	06 b6       	in	r0, 0x36	; 54
+    1dda:	07 fe       	sbrs	r0, 7
+    1ddc:	fd cf       	rjmp	.-6      	; 0x1dd8 <_Z9i2c_writeh+0x6>
 	twst = TW_STATUS & 0xF8;
-    1de0:	91 b1       	in	r25, 0x01	; 1
-    1de2:	98 7f       	andi	r25, 0xF8	; 248
-    1de4:	81 e0       	ldi	r24, 0x01	; 1
-    1de6:	98 32       	cpi	r25, 0x28	; 40
-    1de8:	09 f4       	brne	.+2      	; 0x1dec <_Z9i2c_writeh+0x18>
-    1dea:	80 e0       	ldi	r24, 0x00	; 0
+    1dde:	91 b1       	in	r25, 0x01	; 1
+    1de0:	98 7f       	andi	r25, 0xF8	; 248
+    1de2:	81 e0       	ldi	r24, 0x01	; 1
+    1de4:	98 32       	cpi	r25, 0x28	; 40
+    1de6:	09 f4       	brne	.+2      	; 0x1dea <_Z9i2c_writeh+0x18>
+    1de8:	80 e0       	ldi	r24, 0x00	; 0
 	if( twst != TW_MT_DATA_ACK) return 1;
 	return 0;
 
 }
-    1dec:	08 95       	ret
+    1dea:	08 95       	ret
 
-00001dee <_Z11i2c_readAckv>:
+00001dec <_Z11i2c_readAckv>:
 
 unsigned char i2c_readAck(void) {
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
-    1dee:	84 ec       	ldi	r24, 0xC4	; 196
-    1df0:	86 bf       	out	0x36, r24	; 54
+    1dec:	84 ec       	ldi	r24, 0xC4	; 196
+    1dee:	86 bf       	out	0x36, r24	; 54
 	while(!(TWCR & (1<<TWINT)));    
-    1df2:	06 b6       	in	r0, 0x36	; 54
-    1df4:	07 fe       	sbrs	r0, 7
-    1df6:	fd cf       	rjmp	.-6      	; 0x1df2 <_Z11i2c_readAckv+0x4>
+    1df0:	06 b6       	in	r0, 0x36	; 54
+    1df2:	07 fe       	sbrs	r0, 7
+    1df4:	fd cf       	rjmp	.-6      	; 0x1df0 <_Z11i2c_readAckv+0x4>
     return TWDR;
-    1df8:	83 b1       	in	r24, 0x03	; 3
+    1df6:	83 b1       	in	r24, 0x03	; 3
 }
-    1dfa:	08 95       	ret
+    1df8:	08 95       	ret
 
-00001dfc <_Z11i2c_readNakv>:
+00001dfa <_Z11i2c_readNakv>:
 unsigned char i2c_readNak(void) {
 	TWCR = (1<<TWINT) | (1<<TWEN);
-    1dfc:	84 e8       	ldi	r24, 0x84	; 132
-    1dfe:	86 bf       	out	0x36, r24	; 54
+    1dfa:	84 e8       	ldi	r24, 0x84	; 132
+    1dfc:	86 bf       	out	0x36, r24	; 54
 	while(!(TWCR & (1<<TWINT)));
-    1e00:	06 b6       	in	r0, 0x36	; 54
-    1e02:	07 fe       	sbrs	r0, 7
-    1e04:	fd cf       	rjmp	.-6      	; 0x1e00 <_Z11i2c_readNakv+0x4>
+    1dfe:	06 b6       	in	r0, 0x36	; 54
+    1e00:	07 fe       	sbrs	r0, 7
+    1e02:	fd cf       	rjmp	.-6      	; 0x1dfe <_Z11i2c_readNakv+0x4>
     return TWDR;
-    1e06:	83 b1       	in	r24, 0x03	; 3
-    1e08:	08 95       	ret
+    1e04:	83 b1       	in	r24, 0x03	; 3
+    1e06:	08 95       	ret
 
-00001e0a <__divmodhi4>:
-    1e0a:	97 fb       	bst	r25, 7
-    1e0c:	07 2e       	mov	r0, r23
-    1e0e:	16 f4       	brtc	.+4      	; 0x1e14 <__divmodhi4+0xa>
-    1e10:	00 94       	com	r0
-    1e12:	06 d0       	rcall	.+12     	; 0x1e20 <__divmodhi4_neg1>
-    1e14:	77 fd       	sbrc	r23, 7
-    1e16:	08 d0       	rcall	.+16     	; 0x1e28 <__divmodhi4_neg2>
-    1e18:	4a d0       	rcall	.+148    	; 0x1eae <__udivmodhi4>
-    1e1a:	07 fc       	sbrc	r0, 7
-    1e1c:	05 d0       	rcall	.+10     	; 0x1e28 <__divmodhi4_neg2>
-    1e1e:	3e f4       	brtc	.+14     	; 0x1e2e <__divmodhi4_exit>
+00001e08 <__divmodhi4>:
+    1e08:	97 fb       	bst	r25, 7
+    1e0a:	07 2e       	mov	r0, r23
+    1e0c:	16 f4       	brtc	.+4      	; 0x1e12 <__divmodhi4+0xa>
+    1e0e:	00 94       	com	r0
+    1e10:	06 d0       	rcall	.+12     	; 0x1e1e <__divmodhi4_neg1>
+    1e12:	77 fd       	sbrc	r23, 7
+    1e14:	08 d0       	rcall	.+16     	; 0x1e26 <__divmodhi4_neg2>
+    1e16:	4a d0       	rcall	.+148    	; 0x1eac <__udivmodhi4>
+    1e18:	07 fc       	sbrc	r0, 7
+    1e1a:	05 d0       	rcall	.+10     	; 0x1e26 <__divmodhi4_neg2>
+    1e1c:	3e f4       	brtc	.+14     	; 0x1e2c <__divmodhi4_exit>
 
-00001e20 <__divmodhi4_neg1>:
-    1e20:	90 95       	com	r25
-    1e22:	81 95       	neg	r24
-    1e24:	9f 4f       	sbci	r25, 0xFF	; 255
-    1e26:	08 95       	ret
+00001e1e <__divmodhi4_neg1>:
+    1e1e:	90 95       	com	r25
+    1e20:	81 95       	neg	r24
+    1e22:	9f 4f       	sbci	r25, 0xFF	; 255
+    1e24:	08 95       	ret
 
-00001e28 <__divmodhi4_neg2>:
-    1e28:	70 95       	com	r23
-    1e2a:	61 95       	neg	r22
-    1e2c:	7f 4f       	sbci	r23, 0xFF	; 255
+00001e26 <__divmodhi4_neg2>:
+    1e26:	70 95       	com	r23
+    1e28:	61 95       	neg	r22
+    1e2a:	7f 4f       	sbci	r23, 0xFF	; 255
 
-00001e2e <__divmodhi4_exit>:
-    1e2e:	08 95       	ret
+00001e2c <__divmodhi4_exit>:
+    1e2c:	08 95       	ret
 
-00001e30 <__umulhisi3>:
-    1e30:	a2 9f       	mul	r26, r18
-    1e32:	b0 01       	movw	r22, r0
-    1e34:	b3 9f       	mul	r27, r19
-    1e36:	c0 01       	movw	r24, r0
-    1e38:	a3 9f       	mul	r26, r19
-    1e3a:	01 d0       	rcall	.+2      	; 0x1e3e <__umulhisi3+0xe>
-    1e3c:	b2 9f       	mul	r27, r18
-    1e3e:	70 0d       	add	r23, r0
-    1e40:	81 1d       	adc	r24, r1
-    1e42:	11 24       	eor	r1, r1
-    1e44:	91 1d       	adc	r25, r1
-    1e46:	08 95       	ret
+00001e2e <__umulhisi3>:
+    1e2e:	a2 9f       	mul	r26, r18
+    1e30:	b0 01       	movw	r22, r0
+    1e32:	b3 9f       	mul	r27, r19
+    1e34:	c0 01       	movw	r24, r0
+    1e36:	a3 9f       	mul	r26, r19
+    1e38:	01 d0       	rcall	.+2      	; 0x1e3c <__umulhisi3+0xe>
+    1e3a:	b2 9f       	mul	r27, r18
+    1e3c:	70 0d       	add	r23, r0
+    1e3e:	81 1d       	adc	r24, r1
+    1e40:	11 24       	eor	r1, r1
+    1e42:	91 1d       	adc	r25, r1
+    1e44:	08 95       	ret
 
-00001e48 <__adddi3>:
-    1e48:	2a 0d       	add	r18, r10
-    1e4a:	3b 1d       	adc	r19, r11
-    1e4c:	4c 1d       	adc	r20, r12
-    1e4e:	5d 1d       	adc	r21, r13
-    1e50:	6e 1d       	adc	r22, r14
-    1e52:	7f 1d       	adc	r23, r15
-    1e54:	80 1f       	adc	r24, r16
-    1e56:	91 1f       	adc	r25, r17
-    1e58:	08 95       	ret
+00001e46 <__adddi3>:
+    1e46:	2a 0d       	add	r18, r10
+    1e48:	3b 1d       	adc	r19, r11
+    1e4a:	4c 1d       	adc	r20, r12
+    1e4c:	5d 1d       	adc	r21, r13
+    1e4e:	6e 1d       	adc	r22, r14
+    1e50:	7f 1d       	adc	r23, r15
+    1e52:	80 1f       	adc	r24, r16
+    1e54:	91 1f       	adc	r25, r17
+    1e56:	08 95       	ret
 
-00001e5a <__adddi3_s8>:
-    1e5a:	00 24       	eor	r0, r0
-    1e5c:	a7 fd       	sbrc	r26, 7
-    1e5e:	00 94       	com	r0
-    1e60:	2a 0f       	add	r18, r26
-    1e62:	30 1d       	adc	r19, r0
-    1e64:	40 1d       	adc	r20, r0
-    1e66:	50 1d       	adc	r21, r0
-    1e68:	60 1d       	adc	r22, r0
-    1e6a:	70 1d       	adc	r23, r0
-    1e6c:	80 1d       	adc	r24, r0
-    1e6e:	90 1d       	adc	r25, r0
-    1e70:	08 95       	ret
+00001e58 <__adddi3_s8>:
+    1e58:	00 24       	eor	r0, r0
+    1e5a:	a7 fd       	sbrc	r26, 7
+    1e5c:	00 94       	com	r0
+    1e5e:	2a 0f       	add	r18, r26
+    1e60:	30 1d       	adc	r19, r0
+    1e62:	40 1d       	adc	r20, r0
+    1e64:	50 1d       	adc	r21, r0
+    1e66:	60 1d       	adc	r22, r0
+    1e68:	70 1d       	adc	r23, r0
+    1e6a:	80 1d       	adc	r24, r0
+    1e6c:	90 1d       	adc	r25, r0
+    1e6e:	08 95       	ret
 
-00001e72 <__subdi3>:
-    1e72:	2a 19       	sub	r18, r10
-    1e74:	3b 09       	sbc	r19, r11
-    1e76:	4c 09       	sbc	r20, r12
-    1e78:	5d 09       	sbc	r21, r13
-    1e7a:	6e 09       	sbc	r22, r14
-    1e7c:	7f 09       	sbc	r23, r15
-    1e7e:	80 0b       	sbc	r24, r16
-    1e80:	91 0b       	sbc	r25, r17
-    1e82:	08 95       	ret
+00001e70 <__subdi3>:
+    1e70:	2a 19       	sub	r18, r10
+    1e72:	3b 09       	sbc	r19, r11
+    1e74:	4c 09       	sbc	r20, r12
+    1e76:	5d 09       	sbc	r21, r13
+    1e78:	6e 09       	sbc	r22, r14
+    1e7a:	7f 09       	sbc	r23, r15
+    1e7c:	80 0b       	sbc	r24, r16
+    1e7e:	91 0b       	sbc	r25, r17
+    1e80:	08 95       	ret
 
-00001e84 <__cmpdi2>:
-    1e84:	2a 15       	cp	r18, r10
-    1e86:	3b 05       	cpc	r19, r11
-    1e88:	4c 05       	cpc	r20, r12
-    1e8a:	5d 05       	cpc	r21, r13
-    1e8c:	6e 05       	cpc	r22, r14
-    1e8e:	7f 05       	cpc	r23, r15
-    1e90:	80 07       	cpc	r24, r16
-    1e92:	91 07       	cpc	r25, r17
-    1e94:	08 95       	ret
+00001e82 <__cmpdi2>:
+    1e82:	2a 15       	cp	r18, r10
+    1e84:	3b 05       	cpc	r19, r11
+    1e86:	4c 05       	cpc	r20, r12
+    1e88:	5d 05       	cpc	r21, r13
+    1e8a:	6e 05       	cpc	r22, r14
+    1e8c:	7f 05       	cpc	r23, r15
+    1e8e:	80 07       	cpc	r24, r16
+    1e90:	91 07       	cpc	r25, r17
+    1e92:	08 95       	ret
 
-00001e96 <__cmpdi2_s8>:
-    1e96:	00 24       	eor	r0, r0
-    1e98:	a7 fd       	sbrc	r26, 7
-    1e9a:	00 94       	com	r0
-    1e9c:	2a 17       	cp	r18, r26
-    1e9e:	30 05       	cpc	r19, r0
-    1ea0:	40 05       	cpc	r20, r0
-    1ea2:	50 05       	cpc	r21, r0
-    1ea4:	60 05       	cpc	r22, r0
-    1ea6:	70 05       	cpc	r23, r0
-    1ea8:	80 05       	cpc	r24, r0
-    1eaa:	90 05       	cpc	r25, r0
-    1eac:	08 95       	ret
+00001e94 <__cmpdi2_s8>:
+    1e94:	00 24       	eor	r0, r0
+    1e96:	a7 fd       	sbrc	r26, 7
+    1e98:	00 94       	com	r0
+    1e9a:	2a 17       	cp	r18, r26
+    1e9c:	30 05       	cpc	r19, r0
+    1e9e:	40 05       	cpc	r20, r0
+    1ea0:	50 05       	cpc	r21, r0
+    1ea2:	60 05       	cpc	r22, r0
+    1ea4:	70 05       	cpc	r23, r0
+    1ea6:	80 05       	cpc	r24, r0
+    1ea8:	90 05       	cpc	r25, r0
+    1eaa:	08 95       	ret
 
-00001eae <__udivmodhi4>:
-    1eae:	aa 1b       	sub	r26, r26
-    1eb0:	bb 1b       	sub	r27, r27
-    1eb2:	51 e1       	ldi	r21, 0x11	; 17
-    1eb4:	07 c0       	rjmp	.+14     	; 0x1ec4 <__udivmodhi4_ep>
+00001eac <__udivmodhi4>:
+    1eac:	aa 1b       	sub	r26, r26
+    1eae:	bb 1b       	sub	r27, r27
+    1eb0:	51 e1       	ldi	r21, 0x11	; 17
+    1eb2:	07 c0       	rjmp	.+14     	; 0x1ec2 <__udivmodhi4_ep>
 
-00001eb6 <__udivmodhi4_loop>:
-    1eb6:	aa 1f       	adc	r26, r26
-    1eb8:	bb 1f       	adc	r27, r27
-    1eba:	a6 17       	cp	r26, r22
-    1ebc:	b7 07       	cpc	r27, r23
-    1ebe:	10 f0       	brcs	.+4      	; 0x1ec4 <__udivmodhi4_ep>
-    1ec0:	a6 1b       	sub	r26, r22
-    1ec2:	b7 0b       	sbc	r27, r23
+00001eb4 <__udivmodhi4_loop>:
+    1eb4:	aa 1f       	adc	r26, r26
+    1eb6:	bb 1f       	adc	r27, r27
+    1eb8:	a6 17       	cp	r26, r22
+    1eba:	b7 07       	cpc	r27, r23
+    1ebc:	10 f0       	brcs	.+4      	; 0x1ec2 <__udivmodhi4_ep>
+    1ebe:	a6 1b       	sub	r26, r22
+    1ec0:	b7 0b       	sbc	r27, r23
 
-00001ec4 <__udivmodhi4_ep>:
-    1ec4:	88 1f       	adc	r24, r24
-    1ec6:	99 1f       	adc	r25, r25
-    1ec8:	5a 95       	dec	r21
-    1eca:	a9 f7       	brne	.-22     	; 0x1eb6 <__udivmodhi4_loop>
-    1ecc:	80 95       	com	r24
-    1ece:	90 95       	com	r25
-    1ed0:	bc 01       	movw	r22, r24
-    1ed2:	cd 01       	movw	r24, r26
-    1ed4:	08 95       	ret
+00001ec2 <__udivmodhi4_ep>:
+    1ec2:	88 1f       	adc	r24, r24
+    1ec4:	99 1f       	adc	r25, r25
+    1ec6:	5a 95       	dec	r21
+    1ec8:	a9 f7       	brne	.-22     	; 0x1eb4 <__udivmodhi4_loop>
+    1eca:	80 95       	com	r24
+    1ecc:	90 95       	com	r25
+    1ece:	bc 01       	movw	r22, r24
+    1ed0:	cd 01       	movw	r24, r26
+    1ed2:	08 95       	ret
 
-00001ed6 <eeprom_read_byte>:
-    1ed6:	e1 99       	sbic	0x1c, 1	; 28
-    1ed8:	fe cf       	rjmp	.-4      	; 0x1ed6 <eeprom_read_byte>
-    1eda:	9f bb       	out	0x1f, r25	; 31
-    1edc:	8e bb       	out	0x1e, r24	; 30
-    1ede:	e0 9a       	sbi	0x1c, 0	; 28
-    1ee0:	99 27       	eor	r25, r25
-    1ee2:	8d b3       	in	r24, 0x1d	; 29
-    1ee4:	08 95       	ret
+00001ed4 <eeprom_read_byte>:
+    1ed4:	e1 99       	sbic	0x1c, 1	; 28
+    1ed6:	fe cf       	rjmp	.-4      	; 0x1ed4 <eeprom_read_byte>
+    1ed8:	9f bb       	out	0x1f, r25	; 31
+    1eda:	8e bb       	out	0x1e, r24	; 30
+    1edc:	e0 9a       	sbi	0x1c, 0	; 28
+    1ede:	99 27       	eor	r25, r25
+    1ee0:	8d b3       	in	r24, 0x1d	; 29
+    1ee2:	08 95       	ret
 
-00001ee6 <eeprom_update_byte>:
-    1ee6:	26 2f       	mov	r18, r22
+00001ee4 <eeprom_update_byte>:
+    1ee4:	26 2f       	mov	r18, r22
 
-00001ee8 <eeprom_update_r18>:
-    1ee8:	e1 99       	sbic	0x1c, 1	; 28
-    1eea:	fe cf       	rjmp	.-4      	; 0x1ee8 <eeprom_update_r18>
-    1eec:	9f bb       	out	0x1f, r25	; 31
-    1eee:	8e bb       	out	0x1e, r24	; 30
-    1ef0:	e0 9a       	sbi	0x1c, 0	; 28
-    1ef2:	01 97       	sbiw	r24, 0x01	; 1
-    1ef4:	0d b2       	in	r0, 0x1d	; 29
-    1ef6:	02 16       	cp	r0, r18
-    1ef8:	31 f0       	breq	.+12     	; 0x1f06 <eeprom_update_r18+0x1e>
-    1efa:	2d bb       	out	0x1d, r18	; 29
-    1efc:	0f b6       	in	r0, 0x3f	; 63
-    1efe:	f8 94       	cli
-    1f00:	e2 9a       	sbi	0x1c, 2	; 28
-    1f02:	e1 9a       	sbi	0x1c, 1	; 28
-    1f04:	0f be       	out	0x3f, r0	; 63
-    1f06:	08 95       	ret
+00001ee6 <eeprom_update_r18>:
+    1ee6:	e1 99       	sbic	0x1c, 1	; 28
+    1ee8:	fe cf       	rjmp	.-4      	; 0x1ee6 <eeprom_update_r18>
+    1eea:	9f bb       	out	0x1f, r25	; 31
+    1eec:	8e bb       	out	0x1e, r24	; 30
+    1eee:	e0 9a       	sbi	0x1c, 0	; 28
+    1ef0:	01 97       	sbiw	r24, 0x01	; 1
+    1ef2:	0d b2       	in	r0, 0x1d	; 29
+    1ef4:	02 16       	cp	r0, r18
+    1ef6:	31 f0       	breq	.+12     	; 0x1f04 <eeprom_update_r18+0x1e>
+    1ef8:	2d bb       	out	0x1d, r18	; 29
+    1efa:	0f b6       	in	r0, 0x3f	; 63
+    1efc:	f8 94       	cli
+    1efe:	e2 9a       	sbi	0x1c, 2	; 28
+    1f00:	e1 9a       	sbi	0x1c, 1	; 28
+    1f02:	0f be       	out	0x3f, r0	; 63
+    1f04:	08 95       	ret
 
-00001f08 <_exit>:
-    1f08:	f8 94       	cli
+00001f06 <_exit>:
+    1f06:	f8 94       	cli
 
-00001f0a <__stop_program>:
-    1f0a:	ff cf       	rjmp	.-2      	; 0x1f0a <__stop_program>
+00001f08 <__stop_program>:
+    1f08:	ff cf       	rjmp	.-2      	; 0x1f08 <__stop_program>
