@@ -224,7 +224,7 @@ void tubeSwitch() {
 
 void checkNightMode() {
 	if (getADC(7) >= nightMode.threshold) {
-		if (nightMode.isCanTryActivate && millis() - nightMode.autoStamp >= 5000) {
+		if (nightMode.isCanTryActivate && millis() - nightMode.autoStamp >= 1000) {
 			nightMode.isActive = true;
 			bright.level = 0;
 			if (ledBlinking.count == 0) {
