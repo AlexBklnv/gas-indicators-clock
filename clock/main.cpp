@@ -95,6 +95,8 @@ int main(void) {
 					alarm.lastDay = dateTime.day;
 					alarm.beeper.canBeep = true;
 					alarm.isTurnedOff = false;
+					ledBlinking.isCanInit = false;
+					ledBlinking.count = 0;
 					alarm.beeper.isCanInit = true;	
 				} else {
 					if (dateTime.min != alarm.startMin) {
@@ -104,7 +106,8 @@ int main(void) {
 				}
 			}
 			if (hourBeep.isActive && !nightMode.isActive) {
-				if (hourBeep.manualActivation || (hourBeep.lastHour != dateTime.hour && dateTime.min == 0 && alarm.startMin != 0)) 
+				if (hourBeep.manualActivation || (hourBeep.lastHour != dateTime.hour && dateTime.min == 0 
+							&& !(alarm.startMin == 0 && alarm.startHour == dateTime.hour && alarm.isActive)))
 				{
 					hourBeep.manualActivation = false;
 					hourBeep.lastHour = dateTime.hour;
@@ -170,7 +173,7 @@ int main(void) {
 		} else {
 			alarm.beeper.canBeep = false;
 		}
-		if (!nightMode.isActive && !alarm.beeper.canBeep) {
+		if (!alarm.beeper.canBeep) {
 			beepController(&hourBeep.beeper);
 		}
 		tubeAsMode();
@@ -507,6 +510,7 @@ void firstButtonLongPress() {
 		case mw_SetMin:
 			dateTime.min = editValue.value;
 			etching.lastMin = dateTime.min;
+			hourBeep.lastHour = dateTime.hour;
 			ds1307_setdate(dateTime);
 			alarm.lastDay = 0;
 			resetCorrectionParams();
